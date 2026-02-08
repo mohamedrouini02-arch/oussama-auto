@@ -74,7 +74,7 @@ export default function Header() {
                     </div>
 
                     {/* CTA Button */}
-                    <a href="tel:+821068737079" className="header-cta btn btn-primary">
+                    <a href="tel:+213782769427" className="header-cta btn btn-primary">
                         <Phone size={18} />
                         <span>{language === 'ar' ? 'اتصل بنا' : 'Appelez-nous'}</span>
                     </a>
@@ -104,7 +104,7 @@ export default function Header() {
                     ))}
                 </nav>
                 <div className="nav-mobile-footer">
-                    <a href="tel:+821068737079" className="btn btn-primary w-full">
+                    <a href="tel:+213782769427" className="btn btn-primary w-full">
                         <Phone size={18} />
                         {language === 'ar' ? 'اتصل بنا الآن' : 'Appelez maintenant'}
                     </a>

@@ -171,14 +171,14 @@ export default function Footer() {
                                     <Phone size={18} />
                                     <div>
                                         <span>{language === 'ar' ? 'اتصل بنا' : 'Appelez-nous'}</span>
-                                        <a href="tel:+821068737079">+82 10-6873-7079</a>
+                                        <a href="tel:+213782769427">0782 76 94 27</a>
                                     </div>
                                 </li>
                                 <li>
                                     <Mail size={18} />
                                     <div>
                                         <span>{language === 'ar' ? 'راسلنا' : 'Écrivez-nous'}</span>
-                                        <a href="mailto:info@oussama-auto.com">info@oussama-auto.com</a>
+                                        <a href="mailto:info@oussamaauto.com">info@oussamaauto.com</a>
                                     </div>
                                 </li>
                                 <li>

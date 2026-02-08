@@ -329,7 +329,7 @@ export default function CarDetails() {
                             >
                                 {text.whatsapp}
                             </a>
-                            <a href="tel:+821068737079" className="btn btn-outline btn-lg">
+                            <a href="tel:+213782769427" className="btn btn-outline btn-lg">
                                 <Phone size={20} />
                                 {text.call}
                             </a>

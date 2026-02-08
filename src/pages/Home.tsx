@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import emailjs from '@emailjs/browser'
 import {
     Car, Shield, DollarSign, Headphones, CheckCircle, Phone, Mail, MapPin,
     Ship, Package, FileCheck, Home as HomeIcon, Factory, ArrowLeft
@@ -8,6 +9,11 @@ import { getPopularCars, formatPrice } from '../data/cars'
 import { wilayas, budgetRanges, carBrands } from '../data/wilayas'
 import { supabase, generateReferenceNumber } from '../lib/supabase'
 import './Home.css'
+
+// EmailJS configuration
+const EMAILJS_SERVICE_ID = 'service_d87hn7i'
+const EMAILJS_TEMPLATE_ID = 'template_iftksee'
+const EMAILJS_PUBLIC_KEY = 'v00jNbJkzIBI1HQyE'
 
 export default function Home() {
     const popularCars = getPopularCars()
@@ -51,6 +57,30 @@ export default function Home() {
             })
 
             if (error) throw error
+
+            // Send email notification
+            try {
+                await emailjs.send(
+                    EMAILJS_SERVICE_ID,
+                    EMAILJS_TEMPLATE_ID,
+                    {
+                        reference: refNumber,
+                        from_name: formData.fullName,
+                        phone: formData.phone,
+                        customer_email: formData.email || 'غير محدد',
+                        wilaya: formData.wilaya,
+                        car_brand: formData.carBrand,
+                        car_model: formData.carModel,
+                        budget: formData.budget,
+                        notes: formData.notes || 'لا توجد ملاحظات'
+                    },
+                    EMAILJS_PUBLIC_KEY
+                )
+                console.log('Email sent successfully')
+            } catch (emailError) {
+                console.error('Email notification failed:', emailError)
+                // Don't fail the order if email fails
+            }
 
             setReferenceNumber(refNumber)
             setSubmitSuccess(true)
@@ -398,11 +428,11 @@ export default function Home() {
                             <div className="contact-card card">
                                 <h4>تواصل معنا مباشرة</h4>
                                 <div className="contact-methods">
-                                    <a href="tel:+821068737079" className="contact-method">
+                                    <a href="tel:+213782769427" className="contact-method">
                                         <Phone size={20} />
                                         <div>
                                             <span>اتصل بنا</span>
-                                            <strong>+82 10-6873-7079</strong>
+                                            <strong>0782 76 94 27</strong>
                                         </div>
                                     </a>
                                     <a href="https://wa.me/821068737079" target="_blank" rel="noopener noreferrer" className="contact-method whatsapp-method">
@@ -414,11 +444,11 @@ export default function Home() {
                                             <strong>راسلنا الآن</strong>
                                         </div>
                                     </a>
-                                    <a href="mailto:info@oussama-auto.com" className="contact-method">
+                                    <a href="mailto:info@oussamaauto.com" className="contact-method">
                                         <Mail size={20} />
                                         <div>
                                             <span>البريد الإلكتروني</span>
-                                            <strong>info@oussama-auto.com</strong>
+                                            <strong>info@oussamaauto.com</strong>
                                         </div>
                                     </a>
                                     <div className="contact-method">

@@ -164,7 +164,7 @@ export default function About() {
                             <a href="https://wa.me/821068737079" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
                                 تواصل عبر واتساب
                             </a>
-                            <a href="tel:+821068737079" className="btn btn-outline btn-lg">
+                            <a href="tel:+213782769427" className="btn btn-outline btn-lg">
                                 اتصل بنا
                             </a>
                         </div>

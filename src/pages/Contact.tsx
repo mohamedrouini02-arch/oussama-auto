@@ -45,10 +45,10 @@ export default function Contact() {
     }
 
     const contactInfo = [
-        { icon: Phone, label: 'الهاتف', value: '+82 10-6873-7079', link: 'tel:+821068737079' },
-        { icon: MessageCircle, label: 'واتساب', value: '+82 10-6873-7079', link: 'https://wa.me/821068737079' },
-        { icon: Mail, label: 'البريد الإلكتروني', value: 'info@oussama-auto.com', link: 'mailto:info@oussama-auto.com' },
-        { icon: MapPin, label: 'الموقع', value: 'كوريا الجنوبية - الجزائر', link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
+        { icon: Phone, label: 'الهاتف', value: '0782 76 94 27', link: 'tel:+213782769427' },
+        { icon: MessageCircle, label: 'واتساب', value: '0782 76 94 27', link: 'https://wa.me/213782769427' },
+        { icon: Mail, label: 'البريد الإلكتروني', value: 'info@oussamaauto.com', link: 'mailto:info@oussamaauto.com' },
+        { icon: MapPin, label: 'الموقع', value: 'الميلية، جيجل، الجزائر', link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
     ]
 
     return (
@@ -218,14 +218,14 @@ export default function Contact() {
             {/* Map */}
             <section className="map-section">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3239.4!2d126.977!3d37.5665!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzfCsDMzJzU5LjQiTiAxMjbCsDU4JzM3LjIiRQ!5e0!3m2!1sen!2s!4v1609459200000!5m2!1sen!2s"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d51389.94478695547!2d6.217!3d36.751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12f2d8c67a44c9c3%3A0x4c8f7a9e0c8b5a0!2sEl%20Milia%2C%20Algeria!5e0!3m2!1sen!2sdz!4v1707400000000!5m2!1sen!2sdz"
                     width="100%"
                     height="400"
                     style={{ border: 0 }}
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="موقعنا"
+                    title="موقعنا - الميلية، جيجل"
                 ></iframe>
             </section>
         </div>
