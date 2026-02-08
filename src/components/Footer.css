@@ -309,3 +309,50 @@
         text-align: center;
     }
 }
+
+@media (max-width: 480px) {
+    .footer-content {
+        padding: var(--spacing-8) 0 var(--spacing-4);
+    }
+
+    .footer-logo {
+        height: 50px;
+        max-width: 140px;
+    }
+
+    .footer-about p {
+        font-size: var(--font-size-xs);
+    }
+
+    .footer-title {
+        font-size: var(--font-size-sm);
+    }
+
+    .footer-links li a,
+    .footer-contact li a,
+    .footer-contact li span:last-child {
+        font-size: var(--font-size-xs);
+    }
+
+    .footer-social-link {
+        width: 36px;
+        height: 36px;
+    }
+
+    .newsletter-form {
+        flex-direction: column;
+    }
+
+    .newsletter-input {
+        padding: var(--spacing-2);
+        font-size: var(--font-size-xs);
+    }
+
+    .footer-bottom {
+        padding: var(--spacing-3) 0;
+    }
+
+    .footer-bottom p {
+        font-size: var(--font-size-xs);
+    }
+}

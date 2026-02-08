@@ -226,18 +226,62 @@
     .language-switcher {
         display: none;
     }
+
+    .logo-image {
+        height: 50px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: var(--spacing-2) 0;
+    }
+
+    .header-container {
+        padding: 0 var(--spacing-3);
+    }
+
+    .logo-image {
+        height: 45px;
+    }
+
+    .header-cta {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-xs);
+    }
+
+    .menu-toggle {
+        width: 36px;
+        height: 36px;
+    }
 }
 
 @media (max-width: 480px) {
     .header-container {
-        padding: 0 var(--spacing-4);
+        padding: 0 var(--spacing-2);
+        gap: var(--spacing-2);
     }
 
     .logo-image {
-        height: 60px;
+        height: 40px;
+    }
+
+    .header-cta {
+        padding: var(--spacing-2);
+    }
+
+    .header-cta svg {
+        width: 16px;
+        height: 16px;
     }
 
     .nav-mobile {
         max-width: 100%;
+        padding: var(--spacing-4);
+    }
+
+    .nav-mobile-link {
+        padding: var(--spacing-3);
+        font-size: var(--font-size-sm);
     }
 }

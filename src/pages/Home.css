@@ -884,3 +884,158 @@
         max-width: 100%;
     }
 }
+
+@media (max-width: 480px) {
+    .hero {
+        padding: var(--spacing-16) 0 var(--spacing-8);
+        min-height: auto;
+    }
+
+    .hero-title {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-4);
+    }
+
+    .hero-subtitle {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--spacing-6);
+    }
+
+    .hero-badge {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-1) var(--spacing-3);
+        margin-bottom: var(--spacing-4);
+    }
+
+    .hero-benefit {
+        padding: var(--spacing-3);
+        min-width: 100%;
+    }
+
+    .benefit-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .hero-benefit h4 {
+        font-size: var(--font-size-sm);
+    }
+
+    .hero-benefit p {
+        font-size: var(--font-size-xs);
+    }
+
+    .hero-stats {
+        gap: var(--spacing-3);
+        padding: var(--spacing-4) 0;
+    }
+
+    .stat-number {
+        font-size: var(--font-size-xl);
+    }
+
+    .stat-label {
+        font-size: var(--font-size-xs);
+    }
+
+    .section-header h2 {
+        font-size: var(--font-size-xl);
+    }
+
+    .section-header p {
+        font-size: var(--font-size-sm);
+    }
+
+    .section-tag {
+        font-size: var(--font-size-xs);
+    }
+
+    .form-card {
+        padding: var(--spacing-4);
+    }
+
+    .form-header h3 {
+        font-size: var(--font-size-lg);
+    }
+
+    .process-step {
+        max-width: 100%;
+    }
+
+    .step-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .process-step h3 {
+        font-size: var(--font-size-base);
+    }
+
+    .car-card {
+        border-radius: var(--radius-lg);
+    }
+
+    .car-image {
+        height: 180px;
+    }
+
+    .car-content {
+        padding: var(--spacing-4);
+    }
+
+    .car-name {
+        font-size: var(--font-size-lg);
+    }
+
+    .stat-card {
+        padding: var(--spacing-6);
+    }
+
+    .stat-value {
+        font-size: var(--font-size-2xl);
+    }
+
+    .timeline-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .timeline-content h4 {
+        font-size: var(--font-size-sm);
+    }
+
+    .timeline-content p {
+        font-size: var(--font-size-xs);
+    }
+
+    .info-card,
+    .contact-card {
+        padding: var(--spacing-4);
+    }
+
+    .info-card h4,
+    .contact-card h4 {
+        font-size: var(--font-size-base);
+    }
+
+    .contact-method {
+        padding: var(--spacing-2);
+    }
+
+    .contact-method strong {
+        font-size: var(--font-size-xs);
+    }
+
+    .btn {
+        padding: var(--spacing-3) var(--spacing-4);
+        font-size: var(--font-size-sm);
+    }
+
+    .tiktok-section {
+        padding: var(--spacing-6);
+    }
+
+    .tiktok-section h3 {
+        font-size: var(--font-size-lg);
+    }
+}
