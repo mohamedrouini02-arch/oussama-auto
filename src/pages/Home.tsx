@@ -84,7 +84,9 @@ export default function Home() {
                         wilaya: formData.wilaya,
                         car_brand: formData.carBrand,
                         car_model: formData.carModel,
-                        budget: formData.budget,
+                        budget: formData.budget === 'أخرى (حدد الميزانية)'
+                            ? `ميزانية مخصصة: ${formData.customBudget}`
+                            : formData.budget,
                         notes: formData.notes || 'لا توجد ملاحظات'
                     },
                     EMAILJS_PUBLIC_KEY
