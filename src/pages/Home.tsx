@@ -432,7 +432,7 @@ export default function Home() {
                                         <Phone size={20} />
                                         <div>
                                             <span>اتصل بنا</span>
-                                            <strong>0782 76 94 27</strong>
+                                            <strong>(0782 76 94 27)</strong>
                                         </div>
                                     </a>
                                     <a href="https://wa.me/821068737079" target="_blank" rel="noopener noreferrer" className="contact-method whatsapp-method">
