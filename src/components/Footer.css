@@ -42,9 +42,9 @@
 }
 
 .footer-logo {
-    height: 180px;
+    height: 100px;
     width: auto;
-    max-width: 300px;
+    max-width: 200px;
     object-fit: contain;
     margin-bottom: var(--spacing-4);
 }

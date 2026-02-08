@@ -47,7 +47,7 @@
 }
 
 .logo-image {
-    height: 150px;
+    height: 80px;
     width: auto;
     object-fit: contain;
     transition: transform var(--transition);
@@ -234,7 +234,7 @@
     }
 
     .logo-image {
-        height: 55px;
+        height: 60px;
     }
 
     .nav-mobile {

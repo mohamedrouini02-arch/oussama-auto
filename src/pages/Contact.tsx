@@ -46,7 +46,7 @@ export default function Contact() {
 
     const contactInfo = [
         { icon: Phone, label: 'الهاتف', value: '0782 76 94 27', link: 'tel:+213782769427' },
-        { icon: MessageCircle, label: 'واتساب', value: '0782 76 94 27', link: 'https://wa.me/213782769427' },
+        { icon: MessageCircle, label: 'واتساب', value: '0782 76 94 27', link: 'https://wa.me/821068737079' },
         { icon: Mail, label: 'البريد الإلكتروني', value: 'info@oussamaauto.com', link: 'mailto:info@oussamaauto.com' },
         { icon: MapPin, label: 'الموقع', value: 'الميلية، جيجل، الجزائر', link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
     ]
