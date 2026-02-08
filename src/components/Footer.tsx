@@ -171,7 +171,7 @@ export default function Footer() {
                                     <Phone size={18} />
                                     <div>
                                         <span>{language === 'ar' ? 'اتصل بنا' : 'Appelez-nous'}</span>
-                                        <a href="tel:+213782769427">(0782 76 94 27)</a>
+                                        <a href="tel:+213782769427">0782-76-94-27</a>
                                     </div>
                                 </li>
                                 <li>

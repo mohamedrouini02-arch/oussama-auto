@@ -432,7 +432,7 @@ export default function Home() {
                                         <Phone size={20} />
                                         <div>
                                             <span>اتصل بنا</span>
-                                            <strong>(0782 76 94 27)</strong>
+                                            <strong>0782-76-94-27</strong>
                                         </div>
                                     </a>
                                     <a href="https://wa.me/821068737079" target="_blank" rel="noopener noreferrer" className="contact-method whatsapp-method">
@@ -451,13 +451,13 @@ export default function Home() {
                                             <strong>info@oussamaauto.com</strong>
                                         </div>
                                     </a>
-                                    <div className="contact-method">
+                                    <a href="https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6" target="_blank" rel="noopener noreferrer" className="contact-method">
                                         <MapPin size={20} />
                                         <div>
                                             <span>الموقع</span>
                                             <strong>الميلية، جيجل، الجزائر</strong>
                                         </div>
-                                    </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
