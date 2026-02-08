@@ -80,39 +80,32 @@ export const carBrands = [
 
 export const carModelsByBrand: Record<string, { value: string; label: string }[]> = {
     kia: [
-        { value: 'sportage', label: 'سبورتاج' },
-        { value: 'sorento', label: 'سورينتو' },
-        { value: 'seltos', label: 'سيلتوس' },
+        { value: 'morning', label: 'مورنينغ (Morning)' },
+        { value: 'k3', label: 'K3' },
         { value: 'k5', label: 'K5' },
-        { value: 'carnival', label: 'كارنيفال' },
-        { value: 'picanto', label: 'بيكانتو' },
+        { value: 'seltos', label: 'سيلتوس (Seltos)' },
+        { value: 'sportage', label: 'سبورتاج (Sportage)' },
+        { value: 'sorento', label: 'سورينتو (Sorento)' },
         { value: 'other', label: 'موديل آخر' }
     ],
     hyundai: [
-        { value: 'tucson', label: 'توسان' },
-        { value: 'elantra', label: 'النترا' },
-        { value: 'santa-fe', label: 'سانتا في' },
-        { value: 'accent', label: 'أكسنت' },
-        { value: 'kona', label: 'كونا' },
-        { value: 'casper', label: 'كاسبر' },
-        { value: 'palisade', label: 'باليسيد' },
-        { value: 'creta', label: 'كريتا' },
-        { value: 'ioniq5', label: 'أيونيك 5' },
+        { value: 'casper', label: 'كاسبر (Casper)' },
+        { value: 'elantra', label: 'النترا (Elantra)' },
+        { value: 'venue', label: 'فينيو (Venue)' },
+        { value: 'tucson', label: 'توسان (Tucson)' },
+        { value: 'santa-fe', label: 'سانتا في (Santa Fe)' },
         { value: 'other', label: 'موديل آخر' }
     ],
     chevrolet: [
-        { value: 'spark', label: 'سبارك' },
-        { value: 'trailblazer', label: 'تريل بليزر' },
+        { value: 'spark', label: 'سبارك (Spark)' },
         { value: 'other', label: 'موديل آخر' }
     ],
     renault: [
-        { value: 'symbol', label: 'سيمبول' },
-        { value: 'clio', label: 'كليو' },
-        { value: 'duster', label: 'داستر' },
-        { value: 'megane', label: 'ميجان' },
+        { value: 'arkana', label: 'أركانا (Arkana)' },
         { value: 'other', label: 'موديل آخر' }
     ],
     other: [
         { value: 'other', label: 'حدد الموديل في الملاحظات' }
     ]
 }
+
