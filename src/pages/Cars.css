@@ -404,3 +404,151 @@
         font-size: var(--font-size-3xl);
     }
 }
+
+@media (max-width: 480px) {
+    .cars-page {
+        padding-top: 60px;
+    }
+
+    .cars-hero {
+        padding: var(--spacing-12) 0;
+    }
+
+    .cars-hero h1 {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--spacing-2);
+    }
+
+    .cars-hero p {
+        font-size: var(--font-size-base);
+    }
+
+    .filters-section {
+        padding: var(--spacing-3) 0;
+        top: 50px;
+    }
+
+    .filters-bar {
+        gap: var(--spacing-2);
+    }
+
+    .search-box {
+        padding: var(--spacing-2) var(--spacing-3);
+    }
+
+    .search-box input {
+        font-size: var(--font-size-sm);
+    }
+
+    .filter-toggle {
+        padding: var(--spacing-2);
+    }
+
+    .filter-select {
+        padding: var(--spacing-2) var(--spacing-3);
+        font-size: var(--font-size-sm);
+        min-width: 100%;
+    }
+
+    .mobile-filters {
+        margin-top: var(--spacing-3);
+        gap: var(--spacing-2);
+    }
+
+    .brand-section {
+        border-radius: var(--radius-lg);
+    }
+
+    .brand-header {
+        padding: var(--spacing-3) var(--spacing-4);
+    }
+
+    .brand-logo {
+        width: 40px;
+        height: 40px;
+        font-size: 1.5rem;
+    }
+
+    .brand-name {
+        font-size: var(--font-size-lg);
+    }
+
+    .brand-count {
+        font-size: var(--font-size-xs);
+        padding: var(--spacing-1) var(--spacing-2);
+    }
+
+    .brand-toggle {
+        width: 32px;
+        height: 32px;
+    }
+
+    .brand-section .cars-results-grid {
+        padding: var(--spacing-3);
+    }
+
+    .cars-results-grid {
+        gap: var(--spacing-4);
+        margin-bottom: var(--spacing-8);
+    }
+
+    .car-result-image {
+        height: 180px;
+    }
+
+    .car-result-content {
+        padding: var(--spacing-4);
+    }
+
+    .car-result-name {
+        font-size: var(--font-size-lg);
+    }
+
+    .car-result-desc {
+        font-size: var(--font-size-xs);
+        margin-bottom: var(--spacing-3);
+    }
+
+    .car-result-specs {
+        margin-bottom: var(--spacing-3);
+    }
+
+    .car-result-specs span {
+        font-size: 10px;
+        padding: 2px 6px;
+    }
+
+    .car-result-footer {
+        padding-top: var(--spacing-3);
+    }
+
+    .car-result-price strong {
+        font-size: var(--font-size-base);
+    }
+
+    .results-header p {
+        font-size: var(--font-size-base);
+    }
+
+    .no-results {
+        padding: var(--spacing-8) 0;
+    }
+
+    .no-results h3 {
+        font-size: var(--font-size-lg);
+    }
+
+    .cars-page-cta {
+        padding: var(--spacing-6);
+        border-radius: var(--radius-xl);
+    }
+
+    .cars-page-cta h3 {
+        font-size: var(--font-size-lg);
+    }
+
+    .cars-page-cta p {
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--spacing-4);
+    }
+}
