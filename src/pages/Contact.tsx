@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import { Phone, Mail, MapPin, Clock, Send, MessageCircle } from 'lucide-react'
+import emailjs from '@emailjs/browser'
 import { supabase } from '../lib/supabase'
 import './Contact.css'
+
+// EmailJS configuration
+const EMAILJS_SERVICE_ID = 'service_d87hn7i'
+const EMAILJS_TEMPLATE_ID = 'template_535lqd7'
+const EMAILJS_PUBLIC_KEY = 'v00jNbJkzIBI1HQyE'
 
 export default function Contact() {
     const [formData, setFormData] = useState({
@@ -34,6 +40,25 @@ export default function Contact() {
 
             if (error) throw error
 
+            // Send email notification
+            try {
+                await emailjs.send(
+                    EMAILJS_SERVICE_ID,
+                    EMAILJS_TEMPLATE_ID,
+                    {
+                        from_name: formData.name,
+                        from_email: formData.email || 'غير محدد',
+                        phone: formData.phone,
+                        subject: formData.subject,
+                        message: formData.message
+                    },
+                    EMAILJS_PUBLIC_KEY
+                )
+                console.log('Contact email sent successfully')
+            } catch (emailError) {
+                console.error('Email notification failed:', emailError)
+            }
+
             setSuccess(true)
             setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
         } catch (error) {
@@ -46,7 +71,7 @@ export default function Contact() {
 
     const contactInfo = [
         { icon: Phone, label: 'الهاتف', value: '0782 76 94 27', link: 'tel:+213782769427' },
-        { icon: MessageCircle, label: 'واتساب', value: '0782 76 94 27', link: 'https://wa.me/821068737079' },
+        { icon: MessageCircle, label: 'واتساب', value: '+82 10-6873-7079', link: 'https://wa.me/821068737079' },
         { icon: Mail, label: 'البريد الإلكتروني', value: 'info@oussamaauto.com', link: 'mailto:info@oussamaauto.com' },
         { icon: MapPin, label: 'الموقع', value: 'الميلية، جيجل، الجزائر', link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
     ]
