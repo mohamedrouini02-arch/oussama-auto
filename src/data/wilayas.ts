@@ -61,18 +61,58 @@ export const wilayas = [
 ]
 
 export const budgetRanges = [
-    { value: '1-2', label: '1,000,000 - 2,000,000 دج' },
     { value: '2-3', label: '2,000,000 - 3,000,000 دج' },
     { value: '3-4', label: '3,000,000 - 4,000,000 دج' },
     { value: '4-5', label: '4,000,000 - 5,000,000 دج' },
     { value: '5-7', label: '5,000,000 - 7,000,000 دج' },
     { value: '7-10', label: '7,000,000 - 10,000,000 دج' },
-    { value: '10+', label: 'أكثر من 10,000,000 دج' }
+    { value: '10+', label: 'أكثر من 10,000,000 دج' },
+    { value: 'other', label: 'أخرى (حدد الميزانية)' }
 ]
 
 export const carBrands = [
     { value: 'kia', label: 'كيا' },
     { value: 'hyundai', label: 'هيونداي' },
+    { value: 'chevrolet', label: 'شيفروليه' },
     { value: 'renault', label: 'رينو' },
     { value: 'other', label: 'أخرى' }
 ]
+
+export const carModelsByBrand: Record<string, { value: string; label: string }[]> = {
+    kia: [
+        { value: 'sportage', label: 'سبورتاج' },
+        { value: 'sorento', label: 'سورينتو' },
+        { value: 'seltos', label: 'سيلتوس' },
+        { value: 'k5', label: 'K5' },
+        { value: 'carnival', label: 'كارنيفال' },
+        { value: 'picanto', label: 'بيكانتو' },
+        { value: 'other', label: 'موديل آخر' }
+    ],
+    hyundai: [
+        { value: 'tucson', label: 'توسان' },
+        { value: 'elantra', label: 'النترا' },
+        { value: 'santa-fe', label: 'سانتا في' },
+        { value: 'accent', label: 'أكسنت' },
+        { value: 'kona', label: 'كونا' },
+        { value: 'casper', label: 'كاسبر' },
+        { value: 'palisade', label: 'باليسيد' },
+        { value: 'creta', label: 'كريتا' },
+        { value: 'ioniq5', label: 'أيونيك 5' },
+        { value: 'other', label: 'موديل آخر' }
+    ],
+    chevrolet: [
+        { value: 'spark', label: 'سبارك' },
+        { value: 'trailblazer', label: 'تريل بليزر' },
+        { value: 'other', label: 'موديل آخر' }
+    ],
+    renault: [
+        { value: 'symbol', label: 'سيمبول' },
+        { value: 'clio', label: 'كليو' },
+        { value: 'duster', label: 'داستر' },
+        { value: 'megane', label: 'ميجان' },
+        { value: 'other', label: 'موديل آخر' }
+    ],
+    other: [
+        { value: 'other', label: 'حدد الموديل في الملاحظات' }
+    ]
+}

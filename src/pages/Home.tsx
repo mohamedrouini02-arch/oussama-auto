@@ -6,7 +6,7 @@ import {
     Ship, Package, FileCheck, Home as HomeIcon, Factory, ArrowLeft
 } from 'lucide-react'
 import { getPopularCars, formatPrice } from '../data/cars'
-import { wilayas, budgetRanges, carBrands } from '../data/wilayas'
+import { wilayas, budgetRanges, carBrands, carModelsByBrand } from '../data/wilayas'
 import { supabase, generateReferenceNumber } from '../lib/supabase'
 import './Home.css'
 
@@ -25,6 +25,7 @@ export default function Home() {
         carBrand: '',
         carModel: '',
         budget: '',
+        customBudget: '',
         notes: ''
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -33,7 +34,18 @@ export default function Home() {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target
-        setFormData(prev => ({ ...prev, [name]: value }))
+        if (name === 'carBrand') {
+            // Reset car model when brand changes
+            setFormData(prev => ({ ...prev, [name]: value, carModel: '' }))
+        } else {
+            setFormData(prev => ({ ...prev, [name]: value }))
+        }
+    }
+
+    // Get available models for selected brand
+    const getAvailableModels = () => {
+        const brandKey = carBrands.find(b => b.label === formData.carBrand)?.value || ''
+        return carModelsByBrand[brandKey] || []
     }
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -52,6 +64,7 @@ export default function Home() {
                 car_brand: formData.carBrand,
                 car_model: formData.carModel,
                 budget: formData.budget,
+                custom_budget: formData.customBudget || null,
                 notes: formData.notes || null,
                 status: 'pending'
             })
@@ -86,7 +99,7 @@ export default function Home() {
             setSubmitSuccess(true)
             setFormData({
                 fullName: '', phone: '', email: '', wilaya: '',
-                carBrand: '', carModel: '', budget: '', notes: ''
+                carBrand: '', carModel: '', budget: '', customBudget: '', notes: ''
             })
         } catch (error) {
             console.error('Error submitting order:', error)
@@ -337,15 +350,21 @@ export default function Home() {
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">الموديل *</label>
-                                                <input
-                                                    type="text"
+                                                <select
                                                     name="carModel"
                                                     value={formData.carModel}
                                                     onChange={handleInputChange}
-                                                    className="form-input"
-                                                    placeholder="مثال: سبورتاج، النترا..."
+                                                    className="form-select"
                                                     required
-                                                />
+                                                    disabled={!formData.carBrand}
+                                                >
+                                                    <option value="">{formData.carBrand ? 'اختر الموديل' : 'اختر العلامة أولاً'}</option>
+                                                    {getAvailableModels().map(model => (
+                                                        <option key={model.value} value={model.label}>
+                                                            {model.label}
+                                                        </option>
+                                                    ))}
+                                                </select>
                                             </div>
                                         </div>
 
@@ -366,6 +385,21 @@ export default function Home() {
                                                 ))}
                                             </select>
                                         </div>
+
+                                        {formData.budget === 'أخرى (حدد الميزانية)' && (
+                                            <div className="form-group">
+                                                <label className="form-label">الميزانية المخصصة *</label>
+                                                <input
+                                                    type="text"
+                                                    name="customBudget"
+                                                    value={formData.customBudget}
+                                                    onChange={handleInputChange}
+                                                    className="form-input"
+                                                    placeholder="مثال: 8,500,000 دج"
+                                                    required
+                                                />
+                                            </div>
+                                        )}
 
                                         <div className="form-group">
                                             <label className="form-label">ملاحظات إضافية</label>
