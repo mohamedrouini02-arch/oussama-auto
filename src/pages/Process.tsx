@@ -4,101 +4,88 @@ import {
     HelpCircle, ChevronDown, Phone
 } from 'lucide-react'
 import { useState } from 'react'
+import { useLanguage } from '../context/LanguageContext'
 import './Process.css'
 
 export default function Process() {
     const [openFaq, setOpenFaq] = useState<number | null>(null)
+    const { t, isRTL } = useLanguage()
 
     const steps = [
         {
             step: 1,
             icon: Search,
-            title: 'اختيار السيارة',
-            description: 'تصفح مجموعتنا الواسعة من السيارات الكورية واختر ما يناسبك. يمكنك أيضاً إخبارنا بمواصفات السيارة التي تبحث عنها وسنجدها لك.',
-            duration: '1-3 أيام',
-            details: ['تصفح قاعدة بياناتنا', 'أو أخبرنا بمتطلباتك', 'استلم تقرير فحص السيارة']
+            titleKey: 'processPage.step1.title',
+            descKey: 'processPage.step1.desc',
+            durationKey: 'processPage.step1.duration',
+            detailKeys: ['processPage.step1.detail1', 'processPage.step1.detail2', 'processPage.step1.detail3']
         },
         {
             step: 2,
             icon: CreditCard,
-            title: 'الدفع والتأكيد',
-            description: 'بعد اختيار السيارة، ستتلقى عرض سعر شامل. عند الموافقة، يتم دفع عربون وبدء إجراءات الشراء.',
-            duration: '1-2 يوم',
-            details: ['استلام عرض السعر الشامل', 'دفع العربون (30%)', 'توقيع عقد الشراء']
+            titleKey: 'processPage.step2.title',
+            descKey: 'processPage.step2.desc',
+            durationKey: 'processPage.step2.duration',
+            detailKeys: ['processPage.step2.detail1', 'processPage.step2.detail2', 'processPage.step2.detail3']
         },
         {
             step: 3,
             icon: Ship,
-            title: 'الشحن البحري',
-            description: 'يتم شحن السيارة عبر البحر من كوريا إلى ميناء الجزائر. ستتمكن من تتبع شحنتك في كل مرحلة.',
-            duration: '25-35 يوم',
-            details: ['تحميل السيارة في الميناء الكوري', 'الشحن البحري الآمن', 'تتبع الشحنة لحظة بلحظة']
+            titleKey: 'processPage.step3.title',
+            descKey: 'processPage.step3.desc',
+            durationKey: 'processPage.step3.duration',
+            detailKeys: ['processPage.step3.detail1', 'processPage.step3.detail2', 'processPage.step3.detail3']
         },
         {
             step: 4,
             icon: FileCheck,
-            title: 'التخليص الجمركي',
-            description: 'نتولى جميع إجراءات التخليص الجمركي نيابة عنك. كل ما عليك هو تزويدنا بالوثائق المطلوبة.',
-            duration: '5-10 أيام',
-            details: ['تحضير الوثائق', 'دفع الرسوم الجمركية', 'استخراج البطاقة الرمادية']
+            titleKey: 'processPage.step4.title',
+            descKey: 'processPage.step4.desc',
+            durationKey: 'processPage.step4.duration',
+            detailKeys: ['processPage.step4.detail1', 'processPage.step4.detail2', 'processPage.step4.detail3']
         },
         {
             step: 5,
             icon: Truck,
-            title: 'التوصيل',
-            description: 'بعد إتمام التخليص، يتم توصيل السيارة إلى باب منزلك في أي ولاية بالجزائر.',
-            duration: '1-3 أيام',
-            details: ['نقل آمن', 'تسليم مع الفحص', 'استلام الوثائق النهائية']
+            titleKey: 'processPage.step5.title',
+            descKey: 'processPage.step5.desc',
+            durationKey: 'processPage.step5.duration',
+            detailKeys: ['processPage.step5.detail1', 'processPage.step5.detail2', 'processPage.step5.detail3']
         }
     ]
 
     const paymentMethods = [
-        { name: 'التحويل البنكي', description: 'تحويل مباشر إلى حسابنا البنكي' },
-        { name: 'CCP', description: 'الدفع عبر الحساب البريدي الجاري' },
-        { name: 'الدفع النقدي', description: 'عند الاستلام أو في مكتبنا' }
+        { nameKey: 'processPage.payment.bank', descKey: 'processPage.payment.bank.desc' },
+        { nameKey: 'processPage.payment.ccp', descKey: 'processPage.payment.ccp.desc' },
+        { nameKey: 'processPage.payment.cash', descKey: 'processPage.payment.cash.desc' }
     ]
 
     const documents = [
-        'بطاقة التعريف الوطنية',
-        'جواز السفر',
-        'شهادة الإقامة',
-        'رخصة السياقة',
-        'شهادة الميلاد'
+        'processPage.docs.id',
+        'processPage.docs.passport',
+        'processPage.docs.residence',
+        'processPage.docs.license',
+        'processPage.docs.birth'
     ]
 
     const faqs = [
-        {
-            question: 'كم تستغرق عملية الاستيراد الكاملة؟',
-            answer: 'تستغرق العملية الكاملة من اختيار السيارة حتى التسليم بين 35 إلى 50 يوماً، حسب توفر السيارة وإجراءات الشحن والجمارك.'
-        },
-        {
-            question: 'ما هي تكلفة الشحن والجمارك؟',
-            answer: 'تختلف التكاليف حسب نوع السيارة وحجمها. سنقدم لك عرض سعر شامل يتضمن جميع التكاليف قبل البدء.'
-        },
-        {
-            question: 'هل يمكنني فحص السيارة قبل الشراء؟',
-            answer: 'نعم، نقدم تقرير فحص مفصل لكل سيارة يتضمن صور وفيديوهات. كما يمكن ترتيب فحص إضافي عبر جهة مستقلة.'
-        },
-        {
-            question: 'ماذا لو كانت السيارة معيبة عند الاستلام؟',
-            answer: 'نضمن جودة جميع سياراتنا. في حالة وجود أي عيب لم يُذكر في تقرير الفحص، نتحمل تكاليف الإصلاح أو الاستبدال.'
-        },
-        {
-            question: 'هل يمكنني طلب سيارة غير موجودة في القائمة؟',
-            answer: 'بالتأكيد! أخبرنا بمواصفات السيارة التي تريدها وسنبحث عنها في مزادات كوريا ونوفرها لك.'
-        }
+        { questionKey: 'processPage.faq.q1', answerKey: 'processPage.faq.a1' },
+        { questionKey: 'processPage.faq.q2', answerKey: 'processPage.faq.a2' },
+        { questionKey: 'processPage.faq.q3', answerKey: 'processPage.faq.a3' },
+        { questionKey: 'processPage.faq.q4', answerKey: 'processPage.faq.a4' },
+        { questionKey: 'processPage.faq.q5', answerKey: 'processPage.faq.a5' }
     ]
 
     return (
-        <div className="process-page">
+        <div className={`process-page ${!isRTL ? 'ltr' : ''}`}>
             {/* Hero */}
             <section className="process-hero">
                 <div className="process-hero-bg"></div>
                 <div className="container">
                     <div className="process-hero-content">
-                        <span className="section-tag">عملية الشراء</span>
-                        <h1>كيف تستورد سيارتك من كوريا؟</h1>
-                        <p>دليلك الشامل خطوة بخطوة</p>
+                        <span className="section-tag">{t('processPage.hero.tag')}</span>
+                        <h1>{t('processPage.hero.title')}</h1>
+                        <p>{t('processPage.hero.subtitle')}</p>
                     </div>
                 </div>
             </section>
@@ -118,15 +105,15 @@ export default function Process() {
                                 </div>
                                 <div className="step-content">
                                     <div className="step-header">
-                                        <h3>{step.title}</h3>
-                                        <span className="step-duration">{step.duration}</span>
+                                        <h3>{t(step.titleKey)}</h3>
+                                        <span className="step-duration">{t(step.durationKey)}</span>
                                     </div>
-                                    <p>{step.description}</p>
+                                    <p>{t(step.descKey)}</p>
                                     <ul className="step-details">
-                                        {step.details.map((detail, i) => (
+                                        {step.detailKeys.map((detailKey, i) => (
                                             <li key={i}>
                                                 <CheckCircle size={16} />
-                                                {detail}
+                                                {t(detailKey)}
                                             </li>
                                         ))}
                                     </ul>
@@ -141,15 +128,15 @@ export default function Process() {
             <section className="payment-section section section-dark">
                 <div className="container">
                     <div className="section-header">
-                        <span className="section-tag">الدفع</span>
-                        <h2>طرق الدفع المتاحة</h2>
+                        <span className="section-tag">{t('processPage.payment.tag')}</span>
+                        <h2>{t('processPage.payment.title')}</h2>
                     </div>
                     <div className="payment-grid">
                         {paymentMethods.map((method, index) => (
                             <div key={index} className="payment-card">
                                 <CreditCard size={32} />
-                                <h4>{method.name}</h4>
-                                <p>{method.description}</p>
+                                <h4>{t(method.nameKey)}</h4>
+                                <p>{t(method.descKey)}</p>
                             </div>
                         ))}
                     </div>
@@ -160,21 +147,21 @@ export default function Process() {
             <section className="documents-section section">
                 <div className="container">
                     <div className="section-header">
-                        <span className="section-tag">الوثائق</span>
-                        <h2>الوثائق المطلوبة</h2>
-                        <p>الأوراق اللازمة لإتمام عملية الاستيراد</p>
+                        <span className="section-tag">{t('processPage.docs.tag')}</span>
+                        <h2>{t('processPage.docs.title')}</h2>
+                        <p>{t('processPage.docs.subtitle')}</p>
                     </div>
                     <div className="documents-list">
-                        {documents.map((doc, index) => (
+                        {documents.map((docKey, index) => (
                             <div key={index} className="document-item card">
                                 <FileCheck size={24} />
-                                <span>{doc}</span>
+                                <span>{t(docKey)}</span>
                             </div>
                         ))}
                     </div>
                     <div className="documents-cta">
                         <Link to="/documents" className="btn btn-primary">
-                            رفع الوثائق الآن
+                            {t('processPage.docs.upload')}
                         </Link>
                     </div>
                 </div>
@@ -184,8 +171,8 @@ export default function Process() {
             <section className="faq-section section section-dark">
                 <div className="container">
                     <div className="section-header">
-                        <span className="section-tag">أسئلة شائعة</span>
-                        <h2>الأسئلة المتكررة</h2>
+                        <span className="section-tag">{t('processPage.faq.tag')}</span>
+                        <h2>{t('processPage.faq.title')}</h2>
                     </div>
                     <div className="faq-list">
                         {faqs.map((faq, index) => (
@@ -198,11 +185,11 @@ export default function Process() {
                                     onClick={() => setOpenFaq(openFaq === index ? null : index)}
                                 >
                                     <HelpCircle size={20} />
-                                    <span>{faq.question}</span>
+                                    <span>{t(faq.questionKey)}</span>
                                     <ChevronDown size={20} className="faq-arrow" />
                                 </button>
                                 <div className="faq-answer">
-                                    <p>{faq.answer}</p>
+                                    <p>{t(faq.answerKey)}</p>
                                 </div>
                             </div>
                         ))}
@@ -214,15 +201,15 @@ export default function Process() {
             <section className="process-cta section">
                 <div className="container">
                     <div className="cta-box">
-                        <h2>مستعد للبدء؟</h2>
-                        <p>تواصل معنا الآن وابدأ رحلة استيراد سيارتك</p>
+                        <h2>{t('processPage.cta.title')}</h2>
+                        <p>{t('processPage.cta.subtitle')}</p>
                         <div className="cta-buttons">
                             <a href="https://wa.me/821068737079" target="_blank" rel="noopener noreferrer" className="btn btn-primary btn-lg">
-                                تواصل عبر واتساب
+                                {t('processPage.cta.whatsapp')}
                             </a>
                             <a href="tel:+213782769427" className="btn btn-outline btn-lg">
                                 <Phone size={20} />
-                                اتصل بنا
+                                {t('processPage.cta.call')}
                             </a>
                         </div>
                     </div>

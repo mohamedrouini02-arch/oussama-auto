@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Phone, Mail, MapPin, Clock, Send, MessageCircle } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { supabase } from '../lib/supabase'
+import { useLanguage } from '../context/LanguageContext'
 import './Contact.css'
 
 // EmailJS configuration
@@ -10,6 +11,7 @@ const EMAILJS_TEMPLATE_ID = 'template_535lqd7'
 const EMAILJS_PUBLIC_KEY = 'v00jNbJkzIBI1HQyE'
 
 export default function Contact() {
+    const { t, isRTL, language } = useLanguage()
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -63,29 +65,58 @@ export default function Contact() {
             setFormData({ name: '', email: '', phone: '', subject: '', message: '' })
         } catch (error) {
             console.error('Error:', error)
-            alert('حدث خطأ. يرجى المحاولة مرة أخرى.')
+            alert(isRTL ? 'حدث خطأ. يرجى المحاولة مرة أخرى.' : 'Une erreur est survenue. Veuillez réessayer.')
         } finally {
             setIsSubmitting(false)
         }
     }
 
-    const contactInfo = [
+    const contactInfoAr = [
         { icon: Phone, label: 'الهاتف', value: '0782-76-94-27', link: 'tel:+213782769427' },
         { icon: MessageCircle, label: 'واتساب', value: '+8210-6873-7079', link: 'https://wa.me/821068737079' },
         { icon: Mail, label: 'البريد الإلكتروني', value: 'info@oussamaauto.com', link: 'mailto:info@oussamaauto.com' },
         { icon: MapPin, label: 'الموقع', value: 'الميلية، جيجل، الجزائر', link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
     ]
 
+    const contactInfoFr = [
+        { icon: Phone, label: 'Téléphone', value: '0782-76-94-27', link: 'tel:+213782769427' },
+        { icon: MessageCircle, label: 'WhatsApp', value: '+8210-6873-7079', link: 'https://wa.me/821068737079' },
+        { icon: Mail, label: 'Email', value: 'info@oussamaauto.com', link: 'mailto:info@oussamaauto.com' },
+        { icon: MapPin, label: 'Adresse', value: 'El Milia, Jijel, Algérie', link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
+    ]
+
+    const contactInfo = isRTL ? contactInfoAr : contactInfoFr
+
+    const subjectsAr = [
+        { value: '', label: 'اختر الموضوع' },
+        { value: 'inquiry', label: 'استفسار عام' },
+        { value: 'quote', label: 'طلب عرض سعر' },
+        { value: 'tracking', label: 'تتبع طلب' },
+        { value: 'complaint', label: 'شكوى' },
+        { value: 'other', label: 'أخرى' }
+    ]
+
+    const subjectsFr = [
+        { value: '', label: 'Sélectionnez le sujet' },
+        { value: 'inquiry', label: 'Demande générale' },
+        { value: 'quote', label: 'Demande de devis' },
+        { value: 'tracking', label: 'Suivi de commande' },
+        { value: 'complaint', label: 'Réclamation' },
+        { value: 'other', label: 'Autre' }
+    ]
+
+    const subjects = isRTL ? subjectsAr : subjectsFr
+
     return (
-        <div className="contact-page">
+        <div className={`contact-page ${!isRTL ? 'ltr' : ''}`}>
             {/* Hero */}
             <section className="contact-hero">
                 <div className="contact-hero-bg"></div>
                 <div className="container">
                     <div className="contact-hero-content">
-                        <span className="section-tag">تواصل معنا</span>
-                        <h1>نحن هنا لمساعدتك</h1>
-                        <p>تواصل معنا وسنرد عليك في أقرب وقت</p>
+                        <span className="section-tag">{t('contact.title')}</span>
+                        <h1>{t('contact.subtitle')}</h1>
+                        <p>{isRTL ? 'تواصل معنا وسنرد عليك في أقرب وقت' : 'Contactez-nous et nous vous répondrons rapidement'}</p>
                     </div>
                 </div>
             </section>
@@ -97,27 +128,27 @@ export default function Contact() {
                         {/* Contact Form */}
                         <div className="contact-form-wrapper">
                             <div className="card contact-form-card">
-                                <h2>أرسل لنا رسالة</h2>
+                                <h2>{t('contact.form.title')}</h2>
 
                                 {success ? (
                                     <div className="success-message">
                                         <div className="success-icon">
                                             <Send size={32} />
                                         </div>
-                                        <h3>تم إرسال رسالتك بنجاح!</h3>
-                                        <p>شكراً لتواصلك معنا. سنرد عليك قريباً.</p>
+                                        <h3>{t('contact.form.success')}</h3>
+                                        <p>{isRTL ? 'شكراً لتواصلك معنا. سنرد عليك قريباً.' : 'Merci de nous avoir contactés. Nous vous répondrons bientôt.'}</p>
                                         <button
                                             className="btn btn-primary"
                                             onClick={() => setSuccess(false)}
                                         >
-                                            إرسال رسالة أخرى
+                                            {isRTL ? 'إرسال رسالة أخرى' : 'Envoyer un autre message'}
                                         </button>
                                     </div>
                                 ) : (
                                     <form onSubmit={handleSubmit}>
                                         <div className="form-row">
                                             <div className="form-group">
-                                                <label className="form-label">الاسم الكامل *</label>
+                                                <label className="form-label">{t('contact.form.name')} *</label>
                                                 <input
                                                     type="text"
                                                     name="name"
@@ -128,7 +159,7 @@ export default function Contact() {
                                                 />
                                             </div>
                                             <div className="form-group">
-                                                <label className="form-label">رقم الهاتف *</label>
+                                                <label className="form-label">{t('contact.form.phone')} *</label>
                                                 <input
                                                     type="tel"
                                                     name="phone"
@@ -141,7 +172,7 @@ export default function Contact() {
                                         </div>
 
                                         <div className="form-group">
-                                            <label className="form-label">البريد الإلكتروني</label>
+                                            <label className="form-label">{t('contact.form.email')}</label>
                                             <input
                                                 type="email"
                                                 name="email"
@@ -152,7 +183,7 @@ export default function Contact() {
                                         </div>
 
                                         <div className="form-group">
-                                            <label className="form-label">الموضوع *</label>
+                                            <label className="form-label">{t('contact.form.subject')} *</label>
                                             <select
                                                 name="subject"
                                                 value={formData.subject}
@@ -160,17 +191,16 @@ export default function Contact() {
                                                 className="form-select"
                                                 required
                                             >
-                                                <option value="">اختر الموضوع</option>
-                                                <option value="inquiry">استفسار عام</option>
-                                                <option value="quote">طلب عرض سعر</option>
-                                                <option value="tracking">تتبع طلب</option>
-                                                <option value="complaint">شكوى</option>
-                                                <option value="other">أخرى</option>
+                                                {subjects.map(subject => (
+                                                    <option key={subject.value} value={subject.value}>
+                                                        {subject.label}
+                                                    </option>
+                                                ))}
                                             </select>
                                         </div>
 
                                         <div className="form-group">
-                                            <label className="form-label">الرسالة *</label>
+                                            <label className="form-label">{t('contact.form.message')} *</label>
                                             <textarea
                                                 name="message"
                                                 value={formData.message}
@@ -186,7 +216,7 @@ export default function Contact() {
                                             className="btn btn-primary btn-lg w-full"
                                             disabled={isSubmitting}
                                         >
-                                            {isSubmitting ? 'جاري الإرسال...' : 'إرسال الرسالة'}
+                                            {isSubmitting ? t('contact.form.submitting') : t('contact.form.submit')}
                                         </button>
                                     </form>
                                 )}
@@ -218,20 +248,20 @@ export default function Contact() {
                             <div className="business-hours card">
                                 <h3>
                                     <Clock size={20} />
-                                    ساعات العمل
+                                    {t('contact.hours.title')}
                                 </h3>
                                 <ul>
                                     <li>
-                                        <span>الأحد - الخميس</span>
-                                        <strong>9:00 ص - 6:00 م</strong>
+                                        <span>{t('contact.hours.weekdays')}</span>
+                                        <strong>{t('contact.hours.weekdaysTime')}</strong>
                                     </li>
                                     <li>
-                                        <span>الجمعة</span>
-                                        <strong>مغلق</strong>
+                                        <span>{t('contact.hours.friday')}</span>
+                                        <strong>{t('contact.hours.fridayTime')}</strong>
                                     </li>
                                     <li>
-                                        <span>السبت</span>
-                                        <strong>10:00 ص - 4:00 م</strong>
+                                        <span>{isRTL ? 'السبت' : 'Samedi'}</span>
+                                        <strong>{isRTL ? '10:00 ص - 4:00 م' : '10h00 - 16h00'}</strong>
                                     </li>
                                 </ul>
                             </div>
@@ -250,7 +280,7 @@ export default function Contact() {
                     allowFullScreen
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="موقعنا - الميلية، جيجل"
+                    title={isRTL ? 'موقعنا - الميلية، جيجل' : 'Notre localisation - El Milia, Jijel'}
                 ></iframe>
             </section>
         </div>
