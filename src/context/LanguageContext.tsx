@@ -12,24 +12,31 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-    const [language, setLanguageState] = useState<Language>('ar')
+    const [language, setLanguageState] = useState<Language>(() => {
+        // Get initial language from localStorage or default to 'ar'
+        const saved = localStorage.getItem('language') as Language
+        return (saved === 'ar' || saved === 'fr') ? saved : 'ar'
+    })
 
     const setLanguage = (lang: Language) => {
         setLanguageState(lang)
         // Update document direction and lang
         document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
         document.documentElement.lang = lang
+        // Also set on body for better CSS targeting
+        document.body.dir = lang === 'ar' ? 'rtl' : 'ltr'
+        document.body.setAttribute('data-lang', lang)
         // Store preference
         localStorage.setItem('language', lang)
     }
 
     useEffect(() => {
-        // Load saved preference
-        const saved = localStorage.getItem('language') as Language
-        if (saved && (saved === 'ar' || saved === 'fr')) {
-            setLanguage(saved)
-        }
-    }, [])
+        // Apply direction on initial load
+        document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr'
+        document.documentElement.lang = language
+        document.body.dir = language === 'ar' ? 'rtl' : 'ltr'
+        document.body.setAttribute('data-lang', language)
+    }, [language])
 
     const t = (key: string): string => {
         return translations[language][key] || key

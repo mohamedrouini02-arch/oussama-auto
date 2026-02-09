@@ -177,9 +177,9 @@ export default function CarDetails() {
     const carColors = language === 'ar' ? car.colors : car.colorsFr
 
     const specs = [
-        { icon: Settings, label: text.engine, value: car.engine },
-        { icon: Settings, label: text.transmission, value: car.transmission },
-        { icon: Fuel, label: text.fuel, value: car.fuelType },
+        { icon: Settings, label: text.engine, value: language === 'ar' ? car.engine : car.engineFr },
+        { icon: Settings, label: text.transmission, value: language === 'ar' ? car.transmission : car.transmissionFr },
+        { icon: Fuel, label: text.fuel, value: language === 'ar' ? car.fuelType : car.fuelTypeFr },
         { icon: Users, label: text.seats, value: `${car.seats} ${text.seatsUnit}` },
         { icon: Calendar, label: text.year, value: getYearDisplay(car) },
         { icon: Palette, label: text.colors, value: `${car.colors.length} ${text.colorUnit}` }

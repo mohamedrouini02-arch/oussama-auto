@@ -279,9 +279,9 @@ export default function Cars() {
                                                             {language === 'ar' ? car.description : car.descriptionFr}
                                                         </p>
                                                         <div className="car-result-specs">
-                                                            <span>{car.engine}</span>
-                                                            <span>{car.transmission}</span>
-                                                            <span>{car.fuelType}</span>
+                                                            <span>{language === 'ar' ? car.engine : car.engineFr}</span>
+                                                            <span>{language === 'ar' ? car.transmission : car.transmissionFr}</span>
+                                                            <span>{language === 'ar' ? car.fuelType : car.fuelTypeFr}</span>
                                                         </div>
                                                         <div className="car-result-footer">
                                                             <div className="car-result-price">

@@ -1039,3 +1039,94 @@
         font-size: var(--font-size-lg);
     }
 }
+
+/* ========== LTR (French) STYLES ========== */
+.home-ltr {
+    direction: ltr;
+    text-align: left;
+}
+
+.home-ltr .hero-text {
+    text-align: left;
+}
+
+.home-ltr .hero-floating {
+    left: auto;
+    right: 10%;
+}
+
+.home-ltr .badge-1 {
+    right: auto;
+    left: 0;
+}
+
+.home-ltr .badge-2 {
+    right: auto;
+    left: 50px;
+}
+
+.home-ltr .section-header {
+    text-align: center;
+}
+
+.home-ltr .form-label {
+    text-align: left;
+}
+
+.home-ltr .form-input,
+.home-ltr .form-select,
+.home-ltr .form-textarea {
+    text-align: left;
+}
+
+.home-ltr .guarantee-list li {
+    flex-direction: row;
+}
+
+.home-ltr .contact-method {
+    flex-direction: row;
+}
+
+.home-ltr .contact-method div {
+    text-align: left;
+}
+
+.home-ltr .comparison-us,
+.home-ltr .comparison-them {
+    text-align: left;
+}
+
+.home-ltr .car-content {
+    text-align: left;
+}
+
+.home-ltr .car-footer {
+    flex-direction: row;
+}
+
+.home-ltr .car-price {
+    text-align: left;
+}
+
+.home-ltr .timeline-content {
+    text-align: left;
+}
+
+.home-ltr .hero-benefit {
+    flex-direction: row;
+}
+
+.home-ltr .hero-stat {
+    text-align: left;
+}
+
+.home-ltr .step-connector {
+    left: auto;
+    right: -60px;
+}
+
+@media (max-width: 768px) {
+    .home-ltr .hero-floating {
+        right: 5%;
+    }
+}
