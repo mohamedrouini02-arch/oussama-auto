@@ -55,8 +55,7 @@ export default function Process() {
     const paymentMethods = [
         { name: 'التحويل البنكي', description: 'تحويل مباشر إلى حسابنا البنكي' },
         { name: 'CCP', description: 'الدفع عبر الحساب البريدي الجاري' },
-        { name: 'الدفع النقدي', description: 'عند الاستلام أو في مكتبنا' },
-        { name: 'التقسيط', description: 'متاح بالتنسيق مع بنوك شريكة' }
+        { name: 'الدفع النقدي', description: 'عند الاستلام أو في مكتبنا' }
     ]
 
     const documents = [
