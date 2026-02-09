@@ -11,7 +11,7 @@ const EMAILJS_TEMPLATE_ID = 'template_535lqd7'
 const EMAILJS_PUBLIC_KEY = 'v00jNbJkzIBI1HQyE'
 
 export default function Contact() {
-    const { t, isRTL, language } = useLanguage()
+    const { t, isRTL } = useLanguage()
     const [formData, setFormData] = useState({
         name: '',
         email: '',
