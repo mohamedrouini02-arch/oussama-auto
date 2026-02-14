@@ -16,13 +16,14 @@ export function generateReferenceNumber(): string {
 export interface Order {
     id?: string
     reference_number: string
-    full_name: string
-    phone: string
-    email?: string
-    wilaya: string
+    customer_name: string
+    customer_phone: string
+    customer_email?: string
+    customer_wilaya: string
     car_brand: string
     car_model: string
-    budget: string
+    car_budget: string
+    car_custom_budget?: string
     notes?: string
     status: string
     created_at?: string

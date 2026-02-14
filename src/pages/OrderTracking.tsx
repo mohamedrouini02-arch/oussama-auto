@@ -1,13 +1,13 @@
+import { AlertCircle, CheckCircle, Clock, Package, Search, Ship, Truck } from 'lucide-react'
 import { useState } from 'react'
-import { Search, Package, Truck, Ship, CheckCircle, Clock, AlertCircle } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import './OrderTracking.css'
 
 interface OrderData {
     id: string
     reference_number: string
-    full_name: string
-    phone: string
+    customer_name: string
+    customer_phone: string
     car_brand: string
     car_model: string
     status: string
@@ -137,7 +137,7 @@ export default function OrderTracking() {
                                     </div>
                                     <div className="info-item">
                                         <span>الاسم</span>
-                                        <strong>{order.full_name}</strong>
+                                        <strong>{order.customer_name}</strong>
                                     </div>
                                     <div className="info-item">
                                         <span>السيارة</span>

@@ -286,14 +286,14 @@ export default function Home() {
 
             const { error } = await supabase.from('orders').insert({
                 reference_number: refNumber,
-                full_name: formData.fullName,
-                phone: formData.phone,
-                email: formData.email || null,
-                wilaya: formData.wilaya,
+                customer_name: formData.fullName,
+                customer_phone: formData.phone,
+                customer_email: formData.email || null,
+                customer_wilaya: formData.wilaya,
                 car_brand: formData.carBrand,
                 car_model: formData.carModel,
-                budget: formData.budget,
-                custom_budget: formData.customBudget || null,
+                car_budget: formData.budget,
+                car_custom_budget: formData.customBudget || null,
                 notes: formData.notes || null,
                 status: 'pending'
             })
