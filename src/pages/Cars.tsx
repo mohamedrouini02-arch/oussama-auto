@@ -1,8 +1,8 @@
+import { ChevronDown, ChevronUp, Filter, Search, X } from 'lucide-react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Search, Filter, X, ChevronDown, ChevronUp } from 'lucide-react'
-import { cars, CarData, formatPrice, getYearDisplay } from '../data/cars'
 import { useLanguage } from '../context/LanguageContext'
+import { CarData, cars, formatPrice, getYearDisplay } from '../data/cars'
 import './Cars.css'
 
 export default function Cars() {
@@ -11,10 +11,8 @@ export default function Cars() {
     const [selectedCategory, setSelectedCategory] = useState<string>('')
     const [showFilters, setShowFilters] = useState(false)
     const [collapsedBrands, setCollapsedBrands] = useState<Set<string>>(new Set())
+    const [selectedOrigin, setSelectedOrigin] = useState<'korean' | 'chinese'>('korean')
     const { language, isRTL } = useLanguage()
-
-    const brands = [...new Set(cars.map(car => car.brand))]
-    const categories = [...new Set(cars.map(car => car.category))]
 
     const categoryLabels: Record<string, Record<string, string>> = {
         ar: {
@@ -35,10 +33,23 @@ export default function Cars() {
         'Kia': '🚗',
         'Hyundai': '🚙',
         'Chevrolet': '🚘',
-        'Renault': '🚗'
+        'Renault': '🚗',
+        'Volkswagen': '🚗',
+        'Liven': '🚙',
+        'GAC': '🚙',
+        'Geely': '🚗',
+        'SWM': '🚙',
+        'Jetta': '🚗',
+        'MG': '🚗',
+        'Changan': '🚙'
     }
 
-    const filteredCars = cars.filter(car => {
+    // Filter by origin first
+    const originCars = cars.filter(car => car.origin === selectedOrigin)
+    const brands = [...new Set(originCars.map(car => car.brand))]
+    const categories = [...new Set(originCars.map(car => car.category))]
+
+    const filteredCars = originCars.filter(car => {
         const searchFields = language === 'ar'
             ? [car.modelAr, car.brandAr, car.model]
             : [car.modelFr, car.brandFr, car.model]
@@ -78,6 +89,12 @@ export default function Cars() {
         setSearchTerm('')
         setSelectedBrand('')
         setSelectedCategory('')
+    }
+
+    const handleOriginChange = (origin: 'korean' | 'chinese') => {
+        setSelectedOrigin(origin)
+        clearFilters()
+        setCollapsedBrands(new Set())
     }
 
     const t = {
@@ -125,6 +142,17 @@ export default function Cars() {
         }
     }
 
+    const originLabels = {
+        ar: {
+            korean: '🇰🇷 سيارات كورية',
+            chinese: '🇨🇳 سيارات صينية'
+        },
+        fr: {
+            korean: '🇰🇷 Voitures Coréennes',
+            chinese: '🇨🇳 Voitures Chinoises'
+        }
+    }
+
     const text = t[language]
 
     return (
@@ -137,6 +165,26 @@ export default function Cars() {
                         <span className="section-tag">{text.title}</span>
                         <h1>{text.headline}</h1>
                         <p>{text.subtitle}</p>
+                    </div>
+                </div>
+            </section>
+
+            {/* Origin Tabs */}
+            <section className="origin-tabs-section">
+                <div className="container">
+                    <div className="origin-tabs">
+                        <button
+                            className={`origin-tab ${selectedOrigin === 'korean' ? 'active' : ''}`}
+                            onClick={() => handleOriginChange('korean')}
+                        >
+                            {originLabels[language].korean}
+                        </button>
+                        <button
+                            className={`origin-tab ${selectedOrigin === 'chinese' ? 'active' : ''}`}
+                            onClick={() => handleOriginChange('chinese')}
+                        >
+                            {originLabels[language].chinese}
+                        </button>
                     </div>
                 </div>
             </section>
