@@ -20,7 +20,7 @@ export default function About() {
     ]
 
     const reasonsAr = [
-        'فريق متخصص في كوريا الجنوبية',
+        'فريق متخصص في كوريا الجنوبية والصين',
         'أسعار تنافسية مباشرة من المصدر',
         'فحص شامل لكل سيارة قبل الشراء',
         'تتبع الشحنة لحظة بلحظة',
@@ -31,7 +31,7 @@ export default function About() {
     ]
 
     const reasonsFr = [
-        'Équipe spécialisée en Corée du Sud',
+        'Équipe spécialisée en Corée du Sud et en Chine',
         'Prix compétitifs directement de la source',
         'Inspection complète de chaque voiture avant achat',
         'Suivi de l\'expédition en temps réel',

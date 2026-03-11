@@ -1,14 +1,25 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
 import emailjs from '@emailjs/browser'
 import {
-    Car, Shield, DollarSign, Headphones, CheckCircle, Phone, Mail, MapPin,
-    Ship, Package, FileCheck, Home as HomeIcon, Factory, ArrowLeft, ArrowRight
+    ArrowLeft, ArrowRight,
+    Car,
+    CheckCircle,
+    DollarSign,
+    Factory,
+    FileCheck,
+    Headphones,
+    Home as HomeIcon,
+    Mail, MapPin,
+    Package,
+    Phone,
+    Shield,
+    Ship
 } from 'lucide-react'
-import { getPopularCars, formatPrice } from '../data/cars'
-import { wilayas, budgetRanges, carBrands, carModelsByBrand } from '../data/wilayas'
-import { supabase, generateReferenceNumber } from '../lib/supabase'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
+import { formatPrice, getPopularCars } from '../data/cars'
+import { budgetRanges, carBrands, carModelsByBrand, wilayas } from '../data/wilayas'
+import { generateReferenceNumber, supabase } from '../lib/supabase'
 import './Home.css'
 
 // EmailJS configuration
@@ -38,9 +49,9 @@ export default function Home() {
     const text = {
         ar: {
             heroBadge: '🚗 الوكيل الأول في الجزائر',
-            heroTitle1: 'استورد سيارتك الكورية المستعملة مباشرة من',
-            heroTitle2: 'كوريا',
-            heroSubtitle: 'خبرة واسعة في استيراد سيارات كيا، هيونداي ورينو بأفضل الأسعار مع ضمان الجودة والدعم الكامل من الشراء حتى التسليم',
+            heroTitle1: 'استورد سيارتك الجديدة أو المستعملة مباشرة من',
+            heroTitle2: 'كوريا والصين',
+            heroSubtitle: 'خبرة واسعة في استيراد السيارات الكورية والصينية بأفضل الأسعار مع ضمان الجودة والدعم الكامل من الشراء حتى التسليم',
             startOrder: 'ابدأ طلبك الآن',
             browseCars: 'تصفح السيارات',
             guarantee100: 'ضمان 100%',
@@ -58,7 +69,7 @@ export default function Home() {
             howToOrder: 'كيف تطلب سيارتك؟',
             simpleProcess: 'عملية بسيطة وشفافة من البداية للنهاية',
             chooseCar: 'اختر السيارة',
-            chooseCarDesc: 'تصفح مجموعتنا الواسعة من السيارات الكورية واختر ما يناسبك',
+            chooseCarDesc: 'تصفح مجموعتنا الواسعة من السيارات الكورية والصينية واختر ما يناسبك',
             contactUs: 'تواصل معنا',
             contactUsDesc: 'أرسل لنا تفاصيل السيارة المطلوبة وسنقدم لك عرض سعر',
             weHandleEverything: 'نحن نهتم بكل شيء',
@@ -103,15 +114,15 @@ export default function Home() {
             locationValue: 'الميلية، جيجل، الجزائر',
             carsTag: 'السيارات',
             mostRequested: 'السيارات الأكثر طلباً',
-            discoverCars: 'اكتشف تشكيلتنا من أفضل السيارات الكورية',
+            discoverCars: 'اكتشف تشكيلتنا من أفضل السيارات الكورية والصينية',
             seats: 'مقاعد',
             priceRange: 'نطاق السعر',
             viewDetails: 'عرض التفاصيل',
             notFoundCar: 'لم تجد السيارة التي تبحث عنها؟',
             browseAllCars: 'تصفح كل السيارات',
             featuresTag: 'المميزات',
-            whyKorean: 'لماذا السيارات الكورية؟',
-            whyKoreanDesc: 'أسباب تجعل الاستيراد من كوريا الخيار الأفضل',
+            whyKorean: 'لماذا تستورد معنا؟',
+            whyKoreanDesc: 'أسباب تجعل الاستيراد من كوريا والصين الخيار الأفضل',
             carsAvailable: 'سيارة متاحة',
             avgSavings: 'متوسط التوفير',
             comparison: 'مقارنة: نحن vs الوكلاء التقليديين',
@@ -130,9 +141,9 @@ export default function Home() {
             followTiktok: 'تابعنا على تيك توك',
             tiktokDesc: 'شاهد آخر السيارات والعروض على حسابنا',
             shippingTag: 'الشحن',
-            carJourney: 'رحلة سيارتك من كوريا إلى بيتك',
+            carJourney: 'رحلة سيارتك من كوريا أو الصين إلى بيتك',
             shippingDesc: 'عملية شفافة وآمنة من البداية للنهاية',
-            factory: 'المصنع في كوريا',
+            factory: 'المصنع في كوريا أو الصين',
             factoryDesc: 'اختيار وشراء السيارة من المصدر',
             shipping: 'الشحن البحري',
             shippingDescDetail: 'نقل آمن عبر البحر (25-35 يوم)',
@@ -149,9 +160,9 @@ export default function Home() {
         },
         fr: {
             heroBadge: '🚗 Premier importateur en Algérie',
-            heroTitle1: 'Importez votre voiture coréenne d\'occasion directement de',
-            heroTitle2: 'Corée',
-            heroSubtitle: 'Une grande expérience dans l\'importation de Kia, Hyundai et Renault aux meilleurs prix avec garantie de qualité et support complet de l\'achat à la livraison',
+            heroTitle1: 'Importez votre voiture neuve ou d\'occasion directement de',
+            heroTitle2: 'Corée et Chine',
+            heroSubtitle: 'Une grande expérience dans l\'importation de voitures coréennes et chinoises aux meilleurs prix avec garantie de qualité et support complet de l\'achat à la livraison',
             startOrder: 'Commencez votre commande',
             browseCars: 'Parcourir les voitures',
             guarantee100: 'Garantie 100%',
@@ -169,7 +180,7 @@ export default function Home() {
             howToOrder: 'Comment commander votre voiture?',
             simpleProcess: 'Un processus simple et transparent du début à la fin',
             chooseCar: 'Choisissez la voiture',
-            chooseCarDesc: 'Parcourez notre large collection de voitures coréennes et choisissez celle qui vous convient',
+            chooseCarDesc: 'Parcourez notre large collection de voitures coréennes et chinoises et choisissez celle qui vous convient',
             contactUs: 'Contactez-nous',
             contactUsDesc: 'Envoyez-nous les détails de la voiture souhaitée et nous vous fournirons un devis',
             weHandleEverything: 'Nous gérons tout',
@@ -214,15 +225,15 @@ export default function Home() {
             locationValue: 'El Milia, Jijel, Algérie',
             carsTag: 'Voitures',
             mostRequested: 'Voitures les plus demandées',
-            discoverCars: 'Découvrez notre sélection des meilleures voitures coréennes',
+            discoverCars: 'Découvrez notre sélection des meilleures voitures coréennes et chinoises',
             seats: 'places',
             priceRange: 'Fourchette de prix',
             viewDetails: 'Voir détails',
             notFoundCar: 'Vous n\'avez pas trouvé la voiture que vous cherchez?',
             browseAllCars: 'Voir toutes les voitures',
             featuresTag: 'Avantages',
-            whyKorean: 'Pourquoi les voitures coréennes?',
-            whyKoreanDesc: 'Les raisons qui font de la Corée le meilleur choix',
+            whyKorean: 'Pourquoi importer avec nous?',
+            whyKoreanDesc: 'Les raisons qui font de la Corée et la Chine le meilleur choix',
             carsAvailable: 'voitures disponibles',
             avgSavings: 'économie moyenne',
             comparison: 'Comparaison: Nous vs Concessionnaires traditionnels',
@@ -241,9 +252,9 @@ export default function Home() {
             followTiktok: 'Suivez-nous sur TikTok',
             tiktokDesc: 'Découvrez les dernières voitures et offres sur notre compte',
             shippingTag: 'Expédition',
-            carJourney: 'Le voyage de votre voiture de Corée à chez vous',
+            carJourney: 'Le voyage de votre voiture de Corée ou Chine à chez vous',
             shippingDesc: 'Un processus transparent et sûr du début à la fin',
-            factory: 'Usine en Corée',
+            factory: 'Usine en Corée ou Chine',
             factoryDesc: 'Sélection et achat de la voiture à la source',
             shipping: 'Transport maritime',
             shippingDescDetail: 'Transport sécurisé par mer (25-35 jours)',

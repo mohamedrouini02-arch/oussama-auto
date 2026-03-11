@@ -1,5 +1,5 @@
+import { Mail, MapPin, Phone, Send } from 'lucide-react'
 import { Link } from 'react-router-dom'
-import { Phone, Mail, MapPin, Send } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
 import './Footer.css'
 
@@ -39,7 +39,7 @@ export default function Footer() {
     ]
 
     const servicesAr = [
-        'استيراد السيارات من كوريا',
+        'استيراد السيارات من كوريا والصين',
         'استيراد السيارات من الصين',
         'التخليص الجمركي',
         'الشحن البحري',
@@ -110,8 +110,8 @@ export default function Footer() {
                             <img src="/logo.png" alt="Oussama Auto" className="footer-logo" />
                             <p className="footer-description">
                                 {language === 'ar'
-                                    ? 'أوسامة أوتو - شريكك الموثوق لاستيراد السيارات الكورية والصينية المستعملة إلى الجزائر. نقدم أفضل الأسعار مع ضمان الجودة والدعم الكامل.'
-                                    : 'Oussama Auto - Votre partenaire de confiance pour l\'importation de voitures coréennes et chinoises d\'occasion en Algérie. Les meilleurs prix avec garantie qualité.'
+                                    ? 'أوسامة أوتو - شريكك الموثوق لاستيراد السيارات الكورية والصينية الجديدة والمستعملة إلى الجزائر. نقدم أفضل الأسعار مع ضمان الجودة والدعم الكامل.'
+                                    : 'Oussama Auto - Votre partenaire de confiance pour l\'importation de voitures coréennes et chinoises neuves et d\'occasion en Algérie. Les meilleurs prix avec garantie qualité.'
                                 }
                             </p>
                             <div className="footer-social">

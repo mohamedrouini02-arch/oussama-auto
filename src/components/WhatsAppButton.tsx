@@ -8,7 +8,7 @@ interface WhatsAppButtonProps {
 
 export default function WhatsAppButton({
     phoneNumber = '+821068737079',
-    message = 'مرحباً، أريد الاستفسار عن استيراد سيارة من كوريا'
+    message = 'مرحباً، أريد الاستفسار عن استيراد سيارة من كوريا أو الصين'
 }: WhatsAppButtonProps) {
     const whatsappUrl = `https://wa.me/${phoneNumber.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`
 
