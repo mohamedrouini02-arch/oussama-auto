@@ -1,8 +1,9 @@
 import { ChevronDown, ChevronUp, Filter, Search, X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
-import { CarData, cars, formatPrice, getYearDisplay } from '../data/cars'
+import { CarData, formatPrice, getYearDisplay } from '../data/cars'
+import { fetchCars } from '../data/api'
 import './Cars.css'
 
 export default function Cars() {
@@ -12,7 +13,16 @@ export default function Cars() {
     const [showFilters, setShowFilters] = useState(false)
     const [collapsedBrands, setCollapsedBrands] = useState<Set<string>>(new Set())
     const [selectedOrigin, setSelectedOrigin] = useState<'korean' | 'chinese'>('korean')
+    const [cars, setCarsData] = useState<CarData[]>([])
+    const [loadingCars, setLoadingCars] = useState(true)
     const { language, isRTL } = useLanguage()
+
+    useEffect(() => {
+        fetchCars().then(data => {
+            setCarsData(data)
+            setLoadingCars(false)
+        })
+    }, [])
 
     const categoryLabels: Record<string, Record<string, string>> = {
         ar: {

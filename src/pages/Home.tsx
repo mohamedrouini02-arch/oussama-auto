@@ -14,10 +14,11 @@ import {
     Shield,
     Ship
 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
-import { formatPrice, getPopularCars } from '../data/cars'
+import { CarData, formatPrice } from '../data/cars'
+import { fetchPopularCars } from '../data/api'
 import { budgetRanges, carBrands, carModelsByBrand, wilayas } from '../data/wilayas'
 import { generateReferenceNumber, supabase } from '../lib/supabase'
 import './Home.css'
@@ -29,7 +30,12 @@ const EMAILJS_PUBLIC_KEY = 'v00jNbJkzIBI1HQyE'
 
 export default function Home() {
     const { isRTL, language } = useLanguage()
-    const popularCars = getPopularCars()
+    const [popularCars, setPopularCars] = useState<CarData[]>([])
+
+    useEffect(() => {
+        fetchPopularCars().then(setPopularCars)
+    }, [])
+
     const [formData, setFormData] = useState({
         fullName: '',
         phone: '',

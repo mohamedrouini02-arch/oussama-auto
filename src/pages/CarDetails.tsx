@@ -6,7 +6,8 @@ import {
     Armchair, Thermometer, FlipVertical, Lightbulb, Sun, Gauge, Eye, Snowflake,
     AlertTriangle, Car, Radio, Navigation, Wifi, Volume2, SunMedium, Lock
 } from 'lucide-react'
-import { getCarById, getPopularCars, formatPrice, getYearDisplay } from '../data/cars'
+import { CarData, formatPrice, getYearDisplay } from '../data/cars'
+import { fetchCarById, fetchPopularCars } from '../data/api'
 import { useLanguage } from '../context/LanguageContext'
 import './CarDetails.css'
 
@@ -78,17 +79,27 @@ const getFeatureIcon = (feature: string): React.ElementType => {
 
 export default function CarDetails() {
     const { id } = useParams<{ id: string }>()
-    const car = getCarById(id || '')
-    const similarCars = getPopularCars().filter(c => c.id !== id).slice(0, 3)
     const { language, isRTL } = useLanguage()
+    const [car, setCar] = useState<CarData | null>(null)
+    const [similarCars, setSimilarCars] = useState<CarData[]>([])
+    const [loading, setLoading] = useState(true)
 
     // Carousel state
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
-    // Scroll to top when page loads or car changes
+    // Fetch car data and scroll to top when page loads or car changes
     useEffect(() => {
         window.scrollTo(0, 0)
         setCurrentImageIndex(0)
+        setLoading(true)
+        Promise.all([
+            fetchCarById(id || ''),
+            fetchPopularCars()
+        ]).then(([carData, popularData]) => {
+            setCar(carData)
+            setSimilarCars(popularData.filter(c => c.id !== id).slice(0, 3))
+            setLoading(false)
+        })
     }, [id])
 
     // Combine main image with additional images for carousel
