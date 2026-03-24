@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { fetchContent } from '../data/api'
 import { Phone, Mail, MapPin, Clock, Send, MessageCircle } from 'lucide-react'
 import emailjs from '@emailjs/browser'
 import { supabase } from '../lib/supabase'
@@ -21,6 +22,11 @@ export default function Contact() {
     })
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [success, setSuccess] = useState(false)
+    const [contactContent, setContactContent] = useState<Record<string, string> | null>(null)
+
+    useEffect(() => {
+        fetchContent('contact').then(setContactContent)
+    }, [])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target
@@ -71,18 +77,24 @@ export default function Contact() {
         }
     }
 
+    const phoneVal = contactContent?.phone || '0782-76-94-27'
+    const whatsappVal = contactContent?.whatsapp || '+8210-6873-7079'
+    const emailVal = contactContent?.email || 'info@oussamaauto.com'
+    const addressAr = contactContent?.address_ar || 'الميلية، جيجل، الجزائر'
+    const addressFr = contactContent?.address_fr || 'El Milia, Jijel, Algérie'
+
     const contactInfoAr = [
-        { icon: Phone, label: 'الهاتف', value: '0782-76-94-27', link: 'tel:+213782769427' },
-        { icon: MessageCircle, label: 'واتساب', value: '+8210-6873-7079', link: 'https://wa.me/821068737079' },
-        { icon: Mail, label: 'البريد الإلكتروني', value: 'info@oussamaauto.com', link: 'mailto:info@oussamaauto.com' },
-        { icon: MapPin, label: 'الموقع', value: 'الميلية، جيجل، الجزائر', link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
+        { icon: Phone, label: 'الهاتف', value: phoneVal, link: `tel:${phoneVal.replace(/\s/g, '')}` },
+        { icon: MessageCircle, label: 'واتساب', value: whatsappVal, link: `https://wa.me/${whatsappVal.replace(/[^0-9]/g, '')}` },
+        { icon: Mail, label: 'البريد الإلكتروني', value: emailVal, link: `mailto:${emailVal}` },
+        { icon: MapPin, label: 'الموقع', value: addressAr, link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
     ]
 
     const contactInfoFr = [
-        { icon: Phone, label: 'Téléphone', value: '0782-76-94-27', link: 'tel:+213782769427' },
-        { icon: MessageCircle, label: 'WhatsApp', value: '+8210-6873-7079', link: 'https://wa.me/821068737079' },
-        { icon: Mail, label: 'Email', value: 'info@oussamaauto.com', link: 'mailto:info@oussamaauto.com' },
-        { icon: MapPin, label: 'Adresse', value: 'El Milia, Jijel, Algérie', link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
+        { icon: Phone, label: 'Téléphone', value: phoneVal, link: `tel:${phoneVal.replace(/\s/g, '')}` },
+        { icon: MessageCircle, label: 'WhatsApp', value: whatsappVal, link: `https://wa.me/${whatsappVal.replace(/[^0-9]/g, '')}` },
+        { icon: Mail, label: 'Email', value: emailVal, link: `mailto:${emailVal}` },
+        { icon: MapPin, label: 'Adresse', value: addressFr, link: 'https://maps.app.goo.gl/Te7cmtU5iBoiRxAv6' }
     ]
 
     const contactInfo = isRTL ? contactInfoAr : contactInfoFr

@@ -7,7 +7,7 @@ import {
     AlertTriangle, Car, Radio, Navigation, Wifi, Volume2, SunMedium, Lock
 } from 'lucide-react'
 import { CarData, formatPrice, getYearDisplay } from '../data/cars'
-import { fetchCarById, fetchPopularCars } from '../data/api'
+import { fetchCarById, fetchPopularCars, getImageUrl } from '../data/api'
 import { useLanguage } from '../context/LanguageContext'
 import './CarDetails.css'
 
@@ -82,7 +82,6 @@ export default function CarDetails() {
     const { language, isRTL } = useLanguage()
     const [car, setCar] = useState<CarData | null>(null)
     const [similarCars, setSimilarCars] = useState<CarData[]>([])
-    const [loading, setLoading] = useState(true)
 
     // Carousel state
     const [currentImageIndex, setCurrentImageIndex] = useState(0)
@@ -91,19 +90,17 @@ export default function CarDetails() {
     useEffect(() => {
         window.scrollTo(0, 0)
         setCurrentImageIndex(0)
-        setLoading(true)
         Promise.all([
             fetchCarById(id || ''),
             fetchPopularCars()
         ]).then(([carData, popularData]) => {
             setCar(carData)
             setSimilarCars(popularData.filter(c => c.id !== id).slice(0, 3))
-            setLoading(false)
         })
     }, [id])
 
     // Combine main image with additional images for carousel
-    const allImages = car ? [car.image, ...(car.images || [])] : []
+    const allImages = car ? [getImageUrl(car.image), ...(car.images || []).map(getImageUrl)] : []
 
     const t = {
         ar: {
@@ -203,7 +200,7 @@ export default function CarDetails() {
             {/* Hero */}
             <section className="car-details-hero">
                 <div className="car-details-hero-bg">
-                    <img src={car.image} alt={`${carBrand} ${carName}`} />
+                    <img src={getImageUrl(car.image)} alt={`${carBrand} ${carName}`} />
                     <div className="hero-overlay"></div>
                 </div>
                 <div className="container">

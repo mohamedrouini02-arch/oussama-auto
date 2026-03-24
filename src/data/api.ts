@@ -152,3 +152,15 @@ export async function fetchContent(section: string): Promise<Record<string, stri
     if (error || !data) return {}
     return data.content as Record<string, string>
 }
+
+/**
+ * Safely format image URLs.
+ * If it's a full URL (Supabase), return as-is.
+ * If it's a relative path without a slash, prepend it.
+ */
+export function getImageUrl(path: string | undefined): string {
+    if (!path) return '';
+    if (path.startsWith('http')) return path;
+    if (!path.startsWith('/')) return `/${path}`;
+    return path;
+}

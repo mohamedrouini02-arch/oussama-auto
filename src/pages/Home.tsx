@@ -18,7 +18,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { CarData, formatPrice } from '../data/cars'
-import { fetchPopularCars } from '../data/api'
+import { fetchPopularCars, fetchContent, getImageUrl } from '../data/api'
 import { budgetRanges, carBrands, carModelsByBrand, wilayas } from '../data/wilayas'
 import { generateReferenceNumber, supabase } from '../lib/supabase'
 import './Home.css'
@@ -31,9 +31,11 @@ const EMAILJS_PUBLIC_KEY = 'v00jNbJkzIBI1HQyE'
 export default function Home() {
     const { isRTL, language } = useLanguage()
     const [popularCars, setPopularCars] = useState<CarData[]>([])
+    const [heroContent, setHeroContent] = useState<Record<string, string> | null>(null)
 
     useEffect(() => {
         fetchPopularCars().then(setPopularCars)
+        fetchContent('hero').then(setHeroContent)
     }, [])
 
     const [formData, setFormData] = useState({
@@ -277,7 +279,14 @@ export default function Home() {
         }
     }
 
-    const tx = text[language]
+    const heroContentLocale = heroContent ? {
+        heroBadge: language === 'ar' ? heroContent.badge_ar : heroContent.badge_fr,
+        heroTitle1: language === 'ar' ? heroContent.title1_ar : heroContent.title1_fr,
+        heroTitle2: language === 'ar' ? heroContent.title2_ar : heroContent.title2_fr,
+        heroSubtitle: language === 'ar' ? heroContent.subtitle_ar : heroContent.subtitle_fr,
+    } : {}
+
+    const tx = { ...text[language], ...heroContentLocale }
     const ArrowIcon = isRTL ? ArrowLeft : ArrowRight
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -753,7 +762,7 @@ export default function Home() {
                         {popularCars.map((car, index) => (
                             <div key={car.id} className="car-card animate-fadeInUp" style={{ animationDelay: `${index * 0.1}s` }}>
                                 <div className="car-image">
-                                    <img src={car.image} alt={`${isRTL ? car.brandAr : car.brandFr} ${isRTL ? car.modelAr : car.modelFr}`} />
+                                    <img src={getImageUrl(car.image)} alt={`${isRTL ? car.brandAr : car.brandFr} ${isRTL ? car.modelAr : car.modelFr}`} />
                                     <div className="car-badge">{car.year}</div>
                                 </div>
                                 <div className="car-content">

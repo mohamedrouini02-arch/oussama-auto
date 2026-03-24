@@ -1,9 +1,17 @@
 import { CheckCircle, Users, Award, Target, Heart, Shield, Zap, Globe } from 'lucide-react'
 import { useLanguage } from '../context/LanguageContext'
+import { useState, useEffect } from 'react'
+import { fetchContent } from '../data/api'
 import './About.css'
 
 export default function About() {
-    const { t, isRTL } = useLanguage()
+    const { t, isRTL, language } = useLanguage()
+
+    const [aboutContent, setAboutContent] = useState<Record<string, string> | null>(null)
+
+    useEffect(() => {
+        fetchContent('about').then(setAboutContent)
+    }, [])
 
     const stats = [
         { number: '500+', labelKey: 'stats.cars' },
@@ -63,8 +71,14 @@ export default function About() {
                     <div className="story-grid">
                         <div className="story-content">
                             <h2>{t('about.story.title')}</h2>
-                            <p>{t('about.story.p1')}</p>
-                            <p>{t('about.story.p2')}</p>
+                            {aboutContent ? (
+                                <p style={{ whiteSpace: 'pre-line' }}>{language === 'ar' ? aboutContent.story_ar : aboutContent.story_fr}</p>
+                            ) : (
+                                <>
+                                    <p>{t('about.story.p1')}</p>
+                                    <p>{t('about.story.p2')}</p>
+                                </>
+                            )}
                             <div className="story-stats">
                                 {stats.map((stat, index) => (
                                     <div key={index} className="story-stat">
@@ -94,14 +108,14 @@ export default function About() {
                                 <Target size={40} />
                             </div>
                             <h3>{t('about.mission.title')}</h3>
-                            <p>{t('about.mission.desc')}</p>
+                            <p>{aboutContent ? (language === 'ar' ? aboutContent.mission_ar : aboutContent.mission_fr) : t('about.mission.desc')}</p>
                         </div>
                         <div className="mission-card">
                             <div className="mission-icon">
                                 <Award size={40} />
                             </div>
                             <h3>{t('about.vision.title')}</h3>
-                            <p>{t('about.vision.desc')}</p>
+                            <p>{aboutContent ? (language === 'ar' ? aboutContent.vision_ar : aboutContent.vision_fr) : t('about.vision.desc')}</p>
                         </div>
                         <div className="mission-card">
                             <div className="mission-icon">

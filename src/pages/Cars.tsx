@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useLanguage } from '../context/LanguageContext'
 import { CarData, formatPrice, getYearDisplay } from '../data/cars'
-import { fetchCars } from '../data/api'
+import { fetchCars, getImageUrl } from '../data/api'
 import './Cars.css'
 
 export default function Cars() {
@@ -14,13 +14,11 @@ export default function Cars() {
     const [collapsedBrands, setCollapsedBrands] = useState<Set<string>>(new Set())
     const [selectedOrigin, setSelectedOrigin] = useState<'korean' | 'chinese'>('korean')
     const [cars, setCarsData] = useState<CarData[]>([])
-    const [loadingCars, setLoadingCars] = useState(true)
     const { language, isRTL } = useLanguage()
 
     useEffect(() => {
         fetchCars().then(data => {
             setCarsData(data)
-            setLoadingCars(false)
         })
     }, [])
 
@@ -322,7 +320,7 @@ export default function Cars() {
                                             {carsByBrand[brand].map((car: CarData) => (
                                                 <div key={car.id} className="car-result-card card">
                                                     <div className="car-result-image">
-                                                        <img src={car.image} alt={`${language === 'ar' ? car.brandAr : car.brandFr} ${language === 'ar' ? car.modelAr : car.modelFr}`} />
+                                                        <img src={getImageUrl(car.image)} alt={`${language === 'ar' ? car.brandAr : car.brandFr} ${language === 'ar' ? car.modelAr : car.modelFr}`} />
                                                         <div className="car-year-badge">{getYearDisplay(car)}</div>
                                                         {car.isPopular && <div className="popular-badge">{text.mostRequested}</div>}
                                                     </div>
