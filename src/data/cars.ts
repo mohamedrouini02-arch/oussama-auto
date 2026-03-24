@@ -28,6 +28,7 @@ export interface CarData {
     category: 'city' | 'suv' | 'sedan' | 'hatchback'
     isPopular: boolean
     origin: 'korean' | 'chinese'
+    sortOrder?: number
 }
 
 // Note: Cars must be within 3 years of current year (e.g., 2023-2026 for 2026)

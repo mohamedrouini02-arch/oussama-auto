@@ -47,6 +47,7 @@ export async function fetchCars(): Promise<CarData[]> {
         category: row.category,
         isPopular: row.is_popular,
         origin: row.origin,
+        sortOrder: row.sort_order,
     }))
 }
 
@@ -93,6 +94,7 @@ export async function fetchPopularCars(): Promise<CarData[]> {
         category: row.category,
         isPopular: row.is_popular,
         origin: row.origin,
+        sortOrder: row.sort_order,
     }))
 }
 
@@ -136,6 +138,7 @@ export async function fetchCarById(id: string): Promise<CarData | null> {
         category: data.category,
         isPopular: data.is_popular,
         origin: data.origin,
+        sortOrder: data.sort_order,
     }
 }
 

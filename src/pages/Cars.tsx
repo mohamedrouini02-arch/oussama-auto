@@ -78,8 +78,13 @@ export default function Cars() {
         return acc
     }, {} as Record<string, CarData[]>)
 
-    // Sort brands alphabetically
-    const sortedBrands = Object.keys(carsByBrand).sort()
+    // Sort brands by the minimum sortOrder of their cars
+    const sortedBrands = Object.keys(carsByBrand).sort((a, b) => {
+        const minA = Math.min(...carsByBrand[a].map(c => c.sortOrder ?? 999))
+        const minB = Math.min(...carsByBrand[b].map(c => c.sortOrder ?? 999))
+        if (minA !== minB) return minA - minB
+        return a.localeCompare(b)
+    })
 
     const toggleBrandCollapse = (brand: string) => {
         setCollapsedBrands(prev => {
