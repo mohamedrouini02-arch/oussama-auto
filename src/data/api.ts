@@ -167,3 +167,159 @@ export function getImageUrl(path: string | undefined): string {
     if (!path.startsWith('/')) return `/${path}`;
     return path;
 }
+
+export interface InventoryCar {
+    id: string
+    brand: string
+    model: string
+    year: number
+    carTrim?: string
+    carEnergy?: string
+    carTransmission?: string
+    countryOfOrigin?: string
+    color?: string
+    mileage?: number
+    vin?: string
+    sellingPrice?: number
+    currency?: string
+    location?: string
+    status?: 'available' | 'reserved' | 'sold'
+    photosUrls: string[]
+    videoUrl?: string
+    notes?: string
+    createdAt?: string
+}
+
+const SUPABASE_STORAGE_URL = 'https://lfvjgeeeozvamomgpsjc.supabase.co/storage/v1/object/public/car-media/'
+
+export function formatInventoryImageUrl(path: string | undefined | null): string {
+    if (!path) return ''
+    if (path.startsWith('http')) return path
+    const cleanPath = path.startsWith('/') ? path.slice(1) : path
+    return `${SUPABASE_STORAGE_URL}${cleanPath}`
+}
+
+/**
+ * Fetch cars directly from the live car_inventory table
+ */
+export async function fetchInventoryCars(): Promise<InventoryCar[]> {
+    try {
+        const { data, error } = await supabase
+            .from('car_inventory')
+            .select('*')
+            .order('created_at', { ascending: false })
+
+        if (error) {
+            console.error('Error fetching inventory cars:', error)
+            return []
+        }
+
+        return (data || []).map(row => {
+            const rawPhotos = Array.isArray(row.photos_urls) && row.photos_urls.length > 0
+                ? row.photos_urls
+                : (Array.isArray(row.photos) ? row.photos : [])
+
+            const normalizedPhotos = rawPhotos.map(formatInventoryImageUrl).filter(Boolean)
+
+            // Normalize origin
+            let origin = row.country_of_origin?.toLowerCase() || ''
+            if (!origin) {
+                const loc = (row.location || '').toLowerCase()
+                if (loc.includes('korea') || loc.includes('corée') || loc.includes('كوري')) {
+                    origin = 'korean'
+                } else if (loc.includes('china') || loc.includes('chine') || loc.includes('صين')) {
+                    origin = 'chinese'
+                }
+            } else if (origin.includes('korea') || origin.includes('corée') || origin.includes('كوري')) {
+                origin = 'korean'
+            } else if (origin.includes('china') || origin.includes('chine') || origin.includes('صين')) {
+                origin = 'chinese'
+            }
+
+            return {
+                id: row.id,
+                brand: row.brand || '',
+                model: row.model || '',
+                year: row.year || new Date().getFullYear(),
+                carTrim: row.car_trim || '',
+                carEnergy: row.car_energy || '',
+                carTransmission: row.car_transmission || '',
+                countryOfOrigin: origin,
+                color: row.color || '',
+                mileage: row.mileage || 0,
+                vin: row.vin || row.vin_number || '',
+                sellingPrice: row.selling_price || 0,
+                currency: row.currency || 'DZD',
+                location: row.location || '',
+                status: (row.status?.toLowerCase() as 'available' | 'reserved' | 'sold') || 'available',
+                photosUrls: normalizedPhotos,
+                videoUrl: row.video_url || '',
+                notes: row.notes || '',
+                createdAt: row.created_at || undefined,
+            }
+        })
+    } catch (err) {
+        console.error('Failed to fetch inventory:', err)
+        return []
+    }
+}
+
+/**
+ * Fetch a single inventory car by ID
+ */
+export async function fetchInventoryCarById(id: string): Promise<InventoryCar | null> {
+    try {
+        const { data, error } = await supabase
+            .from('car_inventory')
+            .select('*')
+            .eq('id', id)
+            .single()
+
+        if (error || !data) return null
+
+        const rawPhotos = Array.isArray(data.photos_urls) && data.photos_urls.length > 0
+            ? data.photos_urls
+            : (Array.isArray(data.photos) ? data.photos : [])
+
+        const normalizedPhotos = rawPhotos.map(formatInventoryImageUrl).filter(Boolean)
+
+        let origin = data.country_of_origin?.toLowerCase() || ''
+        if (!origin) {
+            const loc = (data.location || '').toLowerCase()
+            if (loc.includes('korea') || loc.includes('corée') || loc.includes('كوري')) {
+                origin = 'korean'
+            } else if (loc.includes('china') || loc.includes('chine') || loc.includes('صين')) {
+                origin = 'chinese'
+            }
+        } else if (origin.includes('korea') || origin.includes('corée') || origin.includes('كوري')) {
+            origin = 'korean'
+        } else if (origin.includes('china') || origin.includes('chine') || origin.includes('صين')) {
+            origin = 'chinese'
+        }
+
+        return {
+            id: data.id,
+            brand: data.brand || '',
+            model: data.model || '',
+            year: data.year || new Date().getFullYear(),
+            carTrim: data.car_trim || '',
+            carEnergy: data.car_energy || '',
+            carTransmission: data.car_transmission || '',
+            countryOfOrigin: origin,
+            color: data.color || '',
+            mileage: data.mileage || 0,
+            vin: data.vin || data.vin_number || '',
+            sellingPrice: data.selling_price || 0,
+            currency: data.currency || 'DZD',
+            location: data.location || '',
+            status: (data.status?.toLowerCase() as 'available' | 'reserved' | 'sold') || 'available',
+            photosUrls: normalizedPhotos,
+            videoUrl: data.video_url || '',
+            notes: data.notes || '',
+            createdAt: data.created_at || undefined,
+        }
+    } catch (err) {
+        console.error('Failed to fetch inventory car by id:', err)
+        return null
+    }
+}

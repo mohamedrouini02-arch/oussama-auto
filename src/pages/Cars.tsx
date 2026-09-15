@@ -178,6 +178,31 @@ export default function Cars() {
                         <span className="section-tag">{text.title}</span>
                         <h1>{text.headline}</h1>
                         <p>{text.subtitle}</p>
+
+                        {/* Live Inventory Banner */}
+                        <div style={{ marginTop: '1.5rem' }}>
+                            <Link
+                                to="/inventory"
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: '10px',
+                                    background: 'linear-gradient(135deg, rgba(37, 99, 235, 0.9), rgba(16, 185, 129, 0.9))',
+                                    color: '#fff',
+                                    padding: '10px 22px',
+                                    borderRadius: '30px',
+                                    fontSize: '0.95rem',
+                                    fontWeight: 700,
+                                    textDecoration: 'none',
+                                    boxShadow: '0 8px 25px rgba(37, 99, 235, 0.4)',
+                                    border: '1px solid rgba(255, 255, 255, 0.2)'
+                                }}
+                            >
+                                <span>🟢</span>
+                                <span>{language === 'ar' ? 'تبحث عن سيارات متوفرة للشحن الفوري؟ تصفح المخزون المتوفر الآن' : 'Vous cherchez des véhicules en stock prêts à l\'expédition ? Voir le stock'}</span>
+                                <span style={{ transform: isRTL ? 'rotate(180deg)' : 'none' }}>→</span>
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </section>

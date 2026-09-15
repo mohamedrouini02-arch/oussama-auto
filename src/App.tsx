@@ -13,6 +13,7 @@ import OrderTracking from './pages/OrderTracking'
 import ShippingForm from './pages/ShippingForm'
 import Contact from './pages/Contact'
 import DocumentsUpload from './pages/DocumentsUpload'
+import Inventory from './pages/Inventory'
 
 function App() {
     return (
@@ -27,6 +28,8 @@ function App() {
                             <Route path="/about" element={<About />} />
                             <Route path="/cars" element={<Cars />} />
                             <Route path="/cars/:id" element={<CarDetails />} />
+                            <Route path="/inventory" element={<Inventory />} />
+                            <Route path="/stock" element={<Inventory />} />
                             <Route path="/process" element={<Process />} />
                             <Route path="/tracking" element={<OrderTracking />} />
                             <Route path="/shipping-form" element={<ShippingForm />} />

@@ -22,7 +22,8 @@ export default function Footer() {
 
     const quickLinksAr = [
         { path: '/', label: 'الرئيسية' },
-        { path: '/cars', label: 'السيارات المتاحة' },
+        { path: '/cars', label: 'دليل الموديلات' },
+        { path: '/inventory', label: 'السيارات المتوفرة (المخزون)' },
         { path: '/about', label: 'من نحن' },
         { path: '/process', label: 'كيف نعمل' },
         { path: '/tracking', label: 'تتبع طلبك' },
@@ -31,7 +32,8 @@ export default function Footer() {
 
     const quickLinksFr = [
         { path: '/', label: 'Accueil' },
-        { path: '/cars', label: 'Voitures disponibles' },
+        { path: '/cars', label: 'Catalogue des modèles' },
+        { path: '/inventory', label: 'Stock disponible' },
         { path: '/about', label: 'À propos' },
         { path: '/process', label: 'Comment ça marche' },
         { path: '/tracking', label: 'Suivi commande' },

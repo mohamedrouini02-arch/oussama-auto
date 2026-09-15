@@ -449,6 +449,18 @@ export default function Home() {
                                 {tx.startOrder}
                                 <ArrowIcon size={20} />
                             </a>
+                            <Link
+                                to="/inventory"
+                                className="btn btn-lg"
+                                style={{
+                                    background: 'linear-gradient(135deg, #10b981, #059669)',
+                                    color: '#fff',
+                                    border: 'none',
+                                    boxShadow: '0 8px 20px rgba(16, 185, 129, 0.4)'
+                                }}
+                            >
+                                <span>{language === 'ar' ? '🟢 السيارات المتوفرة' : '🟢 Stock Disponible'}</span>
+                            </Link>
                             <Link to="/cars" className="btn btn-secondary btn-lg">
                                 {tx.browseCars}
                             </Link>

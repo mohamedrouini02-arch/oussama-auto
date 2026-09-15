@@ -13,6 +13,7 @@ export default function Header() {
     const navLinks = [
         { path: '/', labelKey: 'nav.home' },
         { path: '/cars', labelKey: 'nav.cars' },
+        { path: '/inventory', labelKey: 'nav.inventory', badge: true },
         { path: '/about', labelKey: 'nav.about' },
         { path: '/process', labelKey: 'nav.process' },
         { path: '/tracking', labelKey: 'nav.tracking' },
@@ -56,6 +57,11 @@ export default function Header() {
                             className={`nav-link ${location.pathname === link.path ? 'nav-link-active' : ''}`}
                         >
                             {t(link.labelKey)}
+                            {link.badge && (
+                                <span className="nav-badge-pulse">
+                                    {language === 'ar' ? 'متوفر' : 'Stock'}
+                                </span>
+                            )}
                         </Link>
                     ))}
                 </nav>
@@ -99,7 +105,12 @@ export default function Header() {
                             to={link.path}
                             className={`nav-mobile-link ${location.pathname === link.path ? 'nav-mobile-link-active' : ''}`}
                         >
-                            {t(link.labelKey)}
+                            <span>{t(link.labelKey)}</span>
+                            {link.badge && (
+                                <span className="nav-badge-pulse mobile">
+                                    {language === 'ar' ? 'متوفر' : 'Stock'}
+                                </span>
+                            )}
                         </Link>
                     ))}
                 </nav>

@@ -4,6 +4,7 @@ const fr = {
     'nav.home': 'Accueil',
     'nav.about': 'À propos',
     'nav.cars': 'Voitures',
+    'nav.inventory': 'Stock disponible',
     'nav.process': 'Processus',
     'nav.tracking': 'Suivi',
     'nav.contact': 'Contact',

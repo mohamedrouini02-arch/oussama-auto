@@ -4,6 +4,7 @@ const ar = {
     'nav.home': 'الرئيسية',
     'nav.about': 'من نحن',
     'nav.cars': 'السيارات',
+    'nav.inventory': 'المخزون المتوفر',
     'nav.process': 'عملية الشراء',
     'nav.tracking': 'تتبع الطلب',
     'nav.contact': 'تواصل معنا',
