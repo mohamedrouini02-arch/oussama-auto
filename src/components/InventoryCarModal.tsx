@@ -14,6 +14,7 @@ export default function InventoryCarModal({ car, onClose }: Props) {
     const [activePhotoIndex, setActivePhotoIndex] = useState(0)
     const [copiedVin, setCopiedVin] = useState(false)
     const [showVideo, setShowVideo] = useState(false)
+    const [touchStartX, setTouchStartX] = useState<number | null>(null)
 
     useEffect(() => {
         setActivePhotoIndex(0)
@@ -42,6 +43,26 @@ export default function InventoryCarModal({ car, onClose }: Props) {
     const prevPhoto = () => {
         setActivePhotoIndex((prev) => (prev - 1 + photos.length) % photos.length)
         setShowVideo(false)
+    }
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStartX(e.touches[0].clientX)
+    }
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        if (touchStartX === null) return
+        const touchEndX = e.changedTouches[0].clientX
+        const diff = touchStartX - touchEndX
+        if (Math.abs(diff) > 40) {
+            if (diff > 0) {
+                // Swiped left
+                isRTL ? prevPhoto() : nextPhoto()
+            } else {
+                // Swiped right
+                isRTL ? nextPhoto() : prevPhoto()
+            }
+        }
+        setTouchStartX(null)
     }
 
     const copyVinToClipboard = () => {
@@ -85,15 +106,22 @@ export default function InventoryCarModal({ car, onClose }: Props) {
                 className={`inventory-modal-container ${isRTL ? 'rtl' : 'ltr'}`}
                 onClick={(e) => e.stopPropagation()}
             >
+                {/* Mobile Handle Indicator */}
+                <div className="modal-mobile-handle" />
+
                 {/* Close Button */}
                 <button className="inventory-modal-close" onClick={onClose} aria-label="Close">
-                    <X size={22} />
+                    <X size={20} />
                 </button>
 
                 <div className="inventory-modal-body">
-                    {/* Media Column (Left / Right depending on RTL) */}
+                    {/* Media Column */}
                     <div className="inventory-modal-media">
-                        <div className="main-media-stage">
+                        <div
+                            className="main-media-stage"
+                            onTouchStart={handleTouchStart}
+                            onTouchEnd={handleTouchEnd}
+                        >
                             {showVideo && car.videoUrl ? (
                                 <div className="video-wrapper">
                                     <iframe
@@ -126,10 +154,10 @@ export default function InventoryCarModal({ car, onClose }: Props) {
                             {photos.length > 1 && !showVideo && (
                                 <>
                                     <button className="photo-arrow photo-arrow-prev" onClick={prevPhoto} aria-label="Previous photo">
-                                        <ChevronLeft size={22} />
+                                        <ChevronLeft size={20} />
                                     </button>
                                     <button className="photo-arrow photo-arrow-next" onClick={nextPhoto} aria-label="Next photo">
-                                        <ChevronRight size={22} />
+                                        <ChevronRight size={20} />
                                     </button>
                                     <div className="photo-counter">
                                         {activePhotoIndex + 1} / {photos.length}
@@ -198,48 +226,48 @@ export default function InventoryCarModal({ car, onClose }: Props) {
                         {/* Specs Grid */}
                         <div className="specs-grid">
                             <div className="spec-item">
-                                <Gauge className="spec-icon" size={18} />
-                                <div>
+                                <Gauge className="spec-icon" size={17} />
+                                <div className="spec-item-content">
                                     <div className="spec-name">{language === 'ar' ? 'المسافة المقطوعة' : 'Kilométrage'}</div>
-                                    <div className="spec-value">{car.mileage?.toLocaleString()} km</div>
+                                    <div className="spec-value">{car.mileage ? `${car.mileage.toLocaleString()} km` : '0 km'}</div>
                                 </div>
                             </div>
 
                             <div className="spec-item">
-                                <Calendar className="spec-icon" size={18} />
-                                <div>
+                                <Calendar className="spec-icon" size={17} />
+                                <div className="spec-item-content">
                                     <div className="spec-name">{language === 'ar' ? 'سنة الصنع' : 'Année'}</div>
                                     <div className="spec-value">{car.year}</div>
                                 </div>
                             </div>
 
                             <div className="spec-item">
-                                <Fuel className="spec-icon" size={18} />
-                                <div>
+                                <Fuel className="spec-icon" size={17} />
+                                <div className="spec-item-content">
                                     <div className="spec-name">{language === 'ar' ? 'نوع الطاقة' : 'Énergie'}</div>
                                     <div className="spec-value">{car.carEnergy || (language === 'ar' ? 'بنزين' : 'Essence')}</div>
                                 </div>
                             </div>
 
                             <div className="spec-item">
-                                <Cog className="spec-icon" size={18} />
-                                <div>
+                                <Cog className="spec-icon" size={17} />
+                                <div className="spec-item-content">
                                     <div className="spec-name">{language === 'ar' ? 'ناقل الحركة' : 'Transmission'}</div>
                                     <div className="spec-value">{car.carTransmission || (language === 'ar' ? 'أوتوماتيك' : 'Automatique')}</div>
                                 </div>
                             </div>
 
                             <div className="spec-item">
-                                <Palette className="spec-icon" size={18} />
-                                <div>
+                                <Palette className="spec-icon" size={17} />
+                                <div className="spec-item-content">
                                     <div className="spec-name">{language === 'ar' ? 'اللون' : 'Couleur'}</div>
                                     <div className="spec-value">{car.color || (language === 'ar' ? 'أصلي' : 'Standard')}</div>
                                 </div>
                             </div>
 
                             <div className="spec-item">
-                                <MapPin className="spec-icon" size={18} />
-                                <div>
+                                <MapPin className="spec-icon" size={17} />
+                                <div className="spec-item-content">
                                     <div className="spec-name">{language === 'ar' ? 'الموقع الحالي' : 'Localisation'}</div>
                                     <div className="spec-value">{car.location || (language === 'ar' ? 'ميناء الشحن' : 'Port')}</div>
                                 </div>
@@ -259,9 +287,9 @@ export default function InventoryCarModal({ car, onClose }: Props) {
 
                         {/* Guarantees Callout */}
                         <div className="stock-guarantees">
-                            <div className="guarantee-chip">✓ {language === 'ar' ? 'فحص تقني معتمد' : 'Contrôle technique certifié'}</div>
+                            <div className="guarantee-chip">✓ {language === 'ar' ? 'فحص تقني معتمد' : 'Contrôle certifié'}</div>
                             <div className="guarantee-chip">✓ {language === 'ar' ? 'أقل من 3 سنوات' : 'Moins de 3 ans'}</div>
-                            <div className="guarantee-chip">✓ {language === 'ar' ? 'شحن بحري مؤمن' : 'Fret maritime assuré'}</div>
+                            <div className="guarantee-chip">✓ {language === 'ar' ? 'شحن بحري مؤمن' : 'Fret assuré'}</div>
                         </div>
 
                         {/* Action Buttons */}
@@ -272,16 +300,17 @@ export default function InventoryCarModal({ car, onClose }: Props) {
                                 rel="noopener noreferrer"
                                 className="action-btn-whatsapp"
                             >
-                                <MessageCircle size={20} />
-                                <span>{language === 'ar' ? 'احجز أو استفسر عبر واتساب' : 'Réserver via WhatsApp'}</span>
+                                <MessageCircle size={19} />
+                                <span>{language === 'ar' ? 'احجز عبر واتساب' : 'Réserver via WhatsApp'}</span>
                             </a>
 
                             <a
                                 href="tel:+213782769427"
                                 className="action-btn-call"
+                                aria-label="Appeler"
                             >
                                 <Phone size={18} />
-                                <span>{language === 'ar' ? 'اتصل بنا مباشرة' : 'Appeler directement'}</span>
+                                <span className="call-btn-text">{language === 'ar' ? 'اتصال مباشر' : 'Appeler'}</span>
                             </a>
                         </div>
                     </div>

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Search, Filter, X, MessageCircle, Eye, Fuel, Cog, Gauge, MapPin, Sparkles, RefreshCw, Car as CarIcon, ArrowUpDown } from 'lucide-react'
+import { Search, X, MessageCircle, Eye, Fuel, Cog, Gauge, MapPin, Sparkles, RefreshCw, Car as CarIcon, ArrowUpDown, SlidersHorizontal, Check } from 'lucide-react'
 import { fetchInventoryCars, InventoryCar } from '../data/api'
 import { useLanguage } from '../context/LanguageContext'
 import InventoryCarModal from '../components/InventoryCarModal'
@@ -50,6 +50,16 @@ export default function Inventory() {
         const chinese = cars.filter(c => c.countryOfOrigin === 'chinese').length
         return { total: cars.length, available, korean, chinese }
     }, [cars])
+
+    // Active advanced filters count
+    const activeFiltersCount = useMemo(() => {
+        let count = 0
+        if (selectedBrand !== 'all') count++
+        if (selectedEnergy !== 'all') count++
+        if (selectedTransmission !== 'all') count++
+        if (sortBy !== 'newest') count++
+        return count
+    }, [selectedBrand, selectedEnergy, selectedTransmission, sortBy])
 
     // Filter & Sort
     const filteredCars = useMemo(() => {
@@ -116,6 +126,7 @@ export default function Inventory() {
         setSelectedEnergy('all')
         setSelectedTransmission('all')
         setSortBy('newest')
+        setShowFiltersMobile(false)
     }
 
     const t = {
@@ -133,20 +144,21 @@ export default function Inventory() {
             allBrands: 'كل العلامات',
             allEnergies: 'كل أنواع الطاقة',
             allTransmissions: 'كل نواقل الحركة',
-            searchPlaceholder: 'ابحث بالماركة، الموديل، رقم الهيكل (VIN) أو اللون...',
-            clearFilters: 'إعادة ضبط الفلاتر',
-            filterResults: 'نتيجة مطابقة',
+            searchPlaceholder: 'ابحث بالماركة، الموديل، VIN...',
+            clearFilters: 'إعادة ضبط',
+            filterResults: 'سيارة متوفرة',
             totalCars: 'إجمالي السيارات',
             availableNow: 'متوفرة فوراً',
             koreanStock: 'مخزون كوري',
             chineseStock: 'مخزون صيني',
             sortBy: 'الترتيب حسب:',
             sortNewest: 'الأحدث إضافة',
-            sortPriceAsc: 'السعر: من الأقل للأعلى',
-            sortPriceDesc: 'السعر: من الأعلى للأقل',
-            sortMileageAsc: 'أقل مسافة مقطوعة',
-            sortYearDesc: 'أحدث سنة صنع',
-            viewDetails: 'عرض التفاصيل والصور',
+            sortPriceAsc: 'السعر: الأقل أولاً',
+            sortPriceDesc: 'السعر: الأعلى أولاً',
+            sortMileageAsc: 'أقل مسافة',
+            sortYearDesc: 'أحدث سنة',
+            viewDetails: 'عرض التفاصيل',
+            viewDetailsShort: 'معاينة',
             reserveWhatsApp: 'احجز عبر واتساب',
             priceNet: 'السعر الإجمالي:',
             priceOnRequest: 'السعر عند الطلب',
@@ -155,7 +167,10 @@ export default function Inventory() {
             contactCustom: 'اطلب سيارة مخصصة',
             refresh: 'تحديث المخزون',
             photosCount: 'صور',
-            instantDelivery: 'شحن فوري'
+            instantDelivery: 'شحن فوري',
+            filters: 'فلاتر',
+            advancedFilters: 'فلاتر متقدمة',
+            apply: 'تطبيق'
         },
         fr: {
             heroBadge: 'Stock Disponible Immédiatement',
@@ -171,9 +186,9 @@ export default function Inventory() {
             allBrands: 'Toutes les marques',
             allEnergies: 'Toutes énergies',
             allTransmissions: 'Toutes transmissions',
-            searchPlaceholder: 'Rechercher marque, modèle, VIN ou couleur...',
-            clearFilters: 'Réinitialiser filtres',
-            filterResults: 'résultats trouvés',
+            searchPlaceholder: 'Rechercher marque, modèle, VIN...',
+            clearFilters: 'Réinitialiser',
+            filterResults: 'véhicules trouvés',
             totalCars: 'Total véhicules',
             availableNow: 'Disponibles',
             koreanStock: 'Stock Corée',
@@ -183,8 +198,9 @@ export default function Inventory() {
             sortPriceAsc: 'Prix croissant',
             sortPriceDesc: 'Prix décroissant',
             sortMileageAsc: 'Kilométrage croissant',
-            sortYearDesc: 'Année la plus récente',
-            viewDetails: 'Voir détails & photos',
+            sortYearDesc: 'Année récente',
+            viewDetails: 'Voir détails',
+            viewDetailsShort: 'Détails',
             reserveWhatsApp: 'Réserver via WhatsApp',
             priceNet: 'Prix total :',
             priceOnRequest: 'Prix sur demande',
@@ -193,7 +209,10 @@ export default function Inventory() {
             contactCustom: 'Commander sur mesure',
             refresh: 'Actualiser',
             photosCount: 'photos',
-            instantDelivery: 'Expédition directe'
+            instantDelivery: 'Expédition directe',
+            filters: 'Filtres',
+            advancedFilters: 'Filtres avancés',
+            apply: 'Appliquer'
         }
     }[language === 'ar' ? 'ar' : 'fr']
 
@@ -208,7 +227,7 @@ export default function Inventory() {
             <section className="inventory-hero">
                 <div className="inventory-hero-container">
                     <div className="hero-badge-pill">
-                        <Sparkles size={16} />
+                        <Sparkles size={15} />
                         <span>{t.heroBadge}</span>
                     </div>
 
@@ -240,8 +259,8 @@ export default function Inventory() {
             {/* Controls & Filter Bar */}
             <section className="inventory-controls-section">
                 <div className="inventory-container">
-                    {/* Search & Quick Pills */}
-                    <div className="inventory-toolbar">
+                    {/* Primary Toolbar (Search + Actions) */}
+                    <div className="inventory-toolbar-main">
                         <div className="inventory-search-box">
                             <Search className="search-icon" size={18} />
                             <input
@@ -251,13 +270,39 @@ export default function Inventory() {
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                             {searchTerm && (
-                                <button className="clear-search-btn" onClick={() => setSearchTerm('')}>
+                                <button className="clear-search-btn" onClick={() => setSearchTerm('')} aria-label="Clear">
                                     <X size={16} />
                                 </button>
                             )}
                         </div>
 
-                        {/* Origin Pills */}
+                        {/* Mobile Actions: Filter trigger + Refresh */}
+                        <div className="toolbar-actions">
+                            <button
+                                className={`mobile-filter-toggle ${showFiltersMobile || activeFiltersCount > 0 ? 'active' : ''}`}
+                                onClick={() => setShowFiltersMobile(!showFiltersMobile)}
+                                aria-label="Filters"
+                            >
+                                <SlidersHorizontal size={17} />
+                                <span className="toggle-text">{t.filters}</span>
+                                {activeFiltersCount > 0 && (
+                                    <span className="filter-badge-count">{activeFiltersCount}</span>
+                                )}
+                            </button>
+
+                            <button
+                                className="refresh-inventory-btn"
+                                onClick={loadInventory}
+                                title={t.refresh}
+                                aria-label={t.refresh}
+                            >
+                                <RefreshCw size={16} className={loading ? 'spinning' : ''} />
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Quick Filter Pills Row (Horizontally scrollable on mobile) */}
+                    <div className="inventory-pills-scroll-container">
                         <div className="origin-filter-pills">
                             <button
                                 className={`pill-btn ${selectedOrigin === 'all' ? 'active' : ''}`}
@@ -279,7 +324,6 @@ export default function Inventory() {
                             </button>
                         </div>
 
-                        {/* Status Pills */}
                         <div className="status-filter-pills">
                             <button
                                 className={`status-pill-btn ${selectedStatus === 'available' ? 'active-avail' : ''}`}
@@ -294,95 +338,111 @@ export default function Inventory() {
                                 {t.statusReserved}
                             </button>
                         </div>
-
-                        {/* Mobile Toggle & Refresh */}
-                        <div className="toolbar-actions">
-                            <button
-                                className="mobile-filter-toggle"
-                                onClick={() => setShowFiltersMobile(!showFiltersMobile)}
-                            >
-                                <Filter size={18} />
-                                <span>فلاتر</span>
-                            </button>
-
-                            <button
-                                className="refresh-inventory-btn"
-                                onClick={loadInventory}
-                                title={t.refresh}
-                            >
-                                <RefreshCw size={16} className={loading ? 'spinning' : ''} />
-                            </button>
-                        </div>
                     </div>
 
-                    {/* Secondary Filters Strip */}
+                    {/* Secondary Filters Dropdown / Mobile Drawer */}
                     <div className={`secondary-filters ${showFiltersMobile ? 'show-mobile' : ''}`}>
-                        {/* Brand Select */}
-                        {brands.length > 0 && (
-                            <select
-                                value={selectedBrand}
-                                onChange={(e) => setSelectedBrand(e.target.value)}
-                                className="filter-select"
-                            >
-                                <option value="all">{t.allBrands}</option>
-                                {brands.map(b => (
-                                    <option key={b} value={b}>{b}</option>
-                                ))}
-                            </select>
-                        )}
-
-                        {/* Energy Select */}
-                        <select
-                            value={selectedEnergy}
-                            onChange={(e) => setSelectedEnergy(e.target.value)}
-                            className="filter-select"
-                        >
-                            <option value="all">{t.allEnergies}</option>
-                            <option value="essence">بنزين / Essence</option>
-                            <option value="diesel">ديزل / Diesel</option>
-                            <option value="hybride">هايبرد / Hybride</option>
-                            <option value="electrique">كهربائي / Électrique</option>
-                        </select>
-
-                        {/* Transmission Select */}
-                        <select
-                            value={selectedTransmission}
-                            onChange={(e) => setSelectedTransmission(e.target.value)}
-                            className="filter-select"
-                        >
-                            <option value="all">{t.allTransmissions}</option>
-                            <option value="auto">أوتوماتيك / Automatique</option>
-                            <option value="manuel">يدوي / Manuelle</option>
-                        </select>
-
-                        {/* Sort Select */}
-                        <div className="sort-box">
-                            <ArrowUpDown size={14} className="sort-icon" />
-                            <select
-                                value={sortBy}
-                                onChange={(e) => setSortBy(e.target.value)}
-                                className="sort-select"
-                            >
-                                <option value="newest">{t.sortNewest}</option>
-                                <option value="price-asc">{t.sortPriceAsc}</option>
-                                <option value="price-desc">{t.sortPriceDesc}</option>
-                                <option value="mileage-asc">{t.sortMileageAsc}</option>
-                                <option value="year-desc">{t.sortYearDesc}</option>
-                            </select>
+                        <div className="secondary-filters-header-mobile">
+                            <span className="sec-title">{t.advancedFilters}</span>
+                            <button className="sec-close-btn" onClick={() => setShowFiltersMobile(false)}>
+                                <X size={18} />
+                            </button>
                         </div>
 
-                        {/* Clear Filters Button */}
-                        {(searchTerm || selectedOrigin !== 'all' || selectedStatus !== 'available' || selectedBrand !== 'all' || selectedEnergy !== 'all' || selectedTransmission !== 'all') && (
-                            <button className="clear-filters-btn" onClick={clearFilters}>
-                                <X size={14} />
-                                <span>{t.clearFilters}</span>
+                        <div className="secondary-filters-grid">
+                            {/* Brand Select */}
+                            {brands.length > 0 && (
+                                <div className="filter-field">
+                                    <label className="field-label">{t.allBrands}</label>
+                                    <select
+                                        value={selectedBrand}
+                                        onChange={(e) => setSelectedBrand(e.target.value)}
+                                        className="filter-select"
+                                    >
+                                        <option value="all">{t.allBrands}</option>
+                                        {brands.map(b => (
+                                            <option key={b} value={b}>{b}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            )}
+
+                            {/* Energy Select */}
+                            <div className="filter-field">
+                                <label className="field-label">{t.allEnergies}</label>
+                                <select
+                                    value={selectedEnergy}
+                                    onChange={(e) => setSelectedEnergy(e.target.value)}
+                                    className="filter-select"
+                                >
+                                    <option value="all">{t.allEnergies}</option>
+                                    <option value="essence">بنزين / Essence</option>
+                                    <option value="diesel">ديزل / Diesel</option>
+                                    <option value="hybride">هايبرد / Hybride</option>
+                                    <option value="electrique">كهربائي / Électrique</option>
+                                </select>
+                            </div>
+
+                            {/* Transmission Select */}
+                            <div className="filter-field">
+                                <label className="field-label">{t.allTransmissions}</label>
+                                <select
+                                    value={selectedTransmission}
+                                    onChange={(e) => setSelectedTransmission(e.target.value)}
+                                    className="filter-select"
+                                >
+                                    <option value="all">{t.allTransmissions}</option>
+                                    <option value="auto">أوتوماتيك / Auto</option>
+                                    <option value="manuel">يدوي / Manuel</option>
+                                </select>
+                            </div>
+
+                            {/* Sort Select */}
+                            <div className="filter-field">
+                                <label className="field-label">{t.sortBy}</label>
+                                <div className="sort-box">
+                                    <ArrowUpDown size={14} className="sort-icon" />
+                                    <select
+                                        value={sortBy}
+                                        onChange={(e) => setSortBy(e.target.value)}
+                                        className="sort-select"
+                                    >
+                                        <option value="newest">{t.sortNewest}</option>
+                                        <option value="price-asc">{t.sortPriceAsc}</option>
+                                        <option value="price-desc">{t.sortPriceDesc}</option>
+                                        <option value="mileage-asc">{t.sortMileageAsc}</option>
+                                        <option value="year-desc">{t.sortYearDesc}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Footer in Drawer on Mobile */}
+                        <div className="secondary-filters-footer">
+                            {(searchTerm || selectedOrigin !== 'all' || selectedStatus !== 'available' || selectedBrand !== 'all' || selectedEnergy !== 'all' || selectedTransmission !== 'all' || sortBy !== 'newest') && (
+                                <button className="clear-filters-btn" onClick={clearFilters}>
+                                    <X size={14} />
+                                    <span>{t.clearFilters}</span>
+                                </button>
+                            )}
+
+                            <button className="apply-filters-btn" onClick={() => setShowFiltersMobile(false)}>
+                                <Check size={16} />
+                                <span>{t.apply} ({filteredCars.length})</span>
                             </button>
-                        )}
+                        </div>
                     </div>
 
-                    {/* Results Counter */}
-                    <div className="results-counter">
-                        <span>{filteredCars.length} {t.filterResults}</span>
+                    {/* Results Counter Strip */}
+                    <div className="results-counter-strip">
+                        <span className="results-badge">
+                            <strong>{filteredCars.length}</strong> {t.filterResults}
+                        </span>
+                        {activeFiltersCount > 0 && (
+                            <button className="inline-reset-btn" onClick={clearFilters}>
+                                {t.clearFilters}
+                            </button>
+                        )}
                     </div>
                 </div>
             </section>
@@ -439,6 +499,8 @@ export default function Inventory() {
                                         <div
                                             className="card-image-wrapper"
                                             onClick={() => setSelectedCar(car)}
+                                            role="button"
+                                            tabIndex={0}
                                         >
                                             <img
                                                 src={photo}
@@ -484,23 +546,23 @@ export default function Inventory() {
                                             {/* Specs Grid */}
                                             <div className="card-specs">
                                                 <div className="card-spec-item" title="المسافة المقطوعة">
-                                                    <Gauge size={14} className="spec-icon" />
-                                                    <span>{car.mileage ? `${car.mileage.toLocaleString()} km` : '0 km'}</span>
+                                                    <Gauge size={13} className="spec-icon" />
+                                                    <span className="spec-text">{car.mileage ? `${car.mileage.toLocaleString()} km` : '0 km'}</span>
                                                 </div>
 
                                                 <div className="card-spec-item" title="ناقل الحركة">
-                                                    <Cog size={14} className="spec-icon" />
-                                                    <span>{car.carTransmission || 'Auto'}</span>
+                                                    <Cog size={13} className="spec-icon" />
+                                                    <span className="spec-text">{car.carTransmission || 'Auto'}</span>
                                                 </div>
 
                                                 <div className="card-spec-item" title="نوع الوقود">
-                                                    <Fuel size={14} className="spec-icon" />
-                                                    <span>{car.carEnergy || 'Essence'}</span>
+                                                    <Fuel size={13} className="spec-icon" />
+                                                    <span className="spec-text">{car.carEnergy || 'Essence'}</span>
                                                 </div>
 
                                                 <div className="card-spec-item" title="الموقع الحالي">
-                                                    <MapPin size={14} className="spec-icon" />
-                                                    <span className="truncate-1">{car.location || 'ميناء الشحن'}</span>
+                                                    <MapPin size={13} className="spec-icon" />
+                                                    <span className="spec-text truncate-1">{car.location || 'ميناء الشحن'}</span>
                                                 </div>
                                             </div>
 
@@ -512,7 +574,7 @@ export default function Inventory() {
                                                 </div>
                                             )}
 
-                                            {/* Price & Actions */}
+                                            {/* Price & Actions (Mobile Optimized) */}
                                             <div className="card-footer">
                                                 <div className="card-price-container">
                                                     <span className="price-sub">{t.priceNet}</span>
@@ -525,7 +587,8 @@ export default function Inventory() {
                                                         onClick={() => setSelectedCar(car)}
                                                         title={t.viewDetails}
                                                     >
-                                                        <Eye size={18} />
+                                                        <Eye size={17} />
+                                                        <span className="btn-label">{t.viewDetailsShort}</span>
                                                     </button>
 
                                                     <a
@@ -535,7 +598,7 @@ export default function Inventory() {
                                                         className="card-whatsapp-btn"
                                                         title={t.reserveWhatsApp}
                                                     >
-                                                        <MessageCircle size={18} />
+                                                        <MessageCircle size={17} />
                                                         <span>{t.reserveWhatsApp}</span>
                                                     </a>
                                                 </div>
